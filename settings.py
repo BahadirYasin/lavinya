@@ -21,17 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY from environment
-SECRET_KEY = os.environ.get('django-insecure-jkm1ok*_#!7@v=eg)oqho!6-l%wo(=nmebcu1!i4f_c6w1pgwp')  # güvenli değilse default'u koyar
+SECRET_KEY = 'django-insecure-jkm1ok*_#!7@v=eg)oqho!6-l%wo(=nmebcu1!i4f_c6w1pgwp' # güvenli değilse default'u koyar
 
 # DEBUG flag
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG =  'True'
 
 # Render dış dünyadan gelen istekleri engeller, burada domain tanımı önemli
-ALLOWED_HOSTS = [
-    'lavinyarestaurant.com',
-    'www.lavinyarestaurant.com',
-    'lavinya.onrender.com',  # Render alt domaini
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
