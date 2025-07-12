@@ -1,0 +1,549 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+  <title>Lavinya Restaurant</title>
+  
+  <!-- Great Vibes font -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <!-- Google Fonts - Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- CSS dosyası -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<!-- 
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      background-color: #fdfcf9;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .coming-soon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .logo-img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .coming-soon-text {
+      font-size: 48px;
+      font-weight: 700;
+      color: #264839;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    /* Mobil görünüm için uyarlamalar */
+    @media (max-width: 480px) {
+      .coming-soon-text {
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+
+      .logo-img {
+        max-width: 300px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="coming-soon-container"> 
+    <img src="{% static 'images/tabela1.png' %}" alt="Logo" class="logo-img" />
+    <div class="coming-soon-text">Çok Yakında</div>
+  </div>
+
+</body>
+-->
+
+
+
+<body>
+ 
+<div class="top-bar">
+    <div class="top-bar-left">
+      <span><i class="fas fa-envelope"></i> lavinyarezervasyon@gmail.com</span>
+      <span><i class="fas fa-phone-alt"></i> +90 555 043 82 43</span>
+      <span><i class="fas fa-map-marker-alt"></i> Yeşilköy, Simav/Kütahya</span>
+    </div>
+    <div class="top-bar-right">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+
+<header>
+  <div class="logo">
+  <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo-img" />
+
+    <div class="mobile-title">
+        <span class="line1">Lavinya Garden Restaurant</span>
+        <span class="line2">& Wedding Area</span>
+      </div>
+</div>
+
+<nav id="nav-menu">
+  <a href="{% url 'index' %}">Anasayfa</a>
+  <a href="#hakkimizda">Hakkımızda</a>
+  <a href="{% url 'menu' %}">Restaurant</a>
+  <a href="{% url 'cafe' %}">Cafe</a>
+  <div class="nav-item organizations-dropdown">
+    <a href="{% url 'organizations' %}" class="organizations-dropdown-toggle">
+      Organizasyonlar <i class="fas fa-chevron-down"></i>
+    </a>
+    <div class="organizations-dropdown-menu">
+      <a href="#">Düğün & Nişan</a>
+      <a href="#">Kurumsal Etkinlikler</a>
+      <a href="#">Özel Yemek Davetleri</a>
+    </div>
+  </div>
+  <a href="{% url 'gallery' %}">Galeri</a>
+  <a href="{% url 'reservation' %}">Rezervasyon</a>
+  <a href="{% url 'contact' %}">Iletısım</a>
+</nav>
+
+
+  <div class="hamburger" id="hamburger-btn" aria-label="Menüyü aç/kapat" aria-expanded="false" role="button" tabindex="0">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</header>
+
+<div id="loading-spinner">
+  <div class="spinner"></div>
+</div>
+
+<script>
+  window.addEventListener('load', function() {
+    const spinner = document.getElementById('loading-spinner');
+    if (spinner) {
+      spinner.style.display = 'none';
+    }
+  });
+</script>
+
+{% with hero=hero_section.0 %}
+<section class="lavinya-hero" style="background-image: url('{{ hero.background_image.url }}');">
+  <div class="lavinya-hero-content">
+    <h1>{{ hero.title }}</h1>
+    <p>{{ hero.subtitle }}</p>
+    <a href="{{ hero.button_link }}" class="lavinya-btn">{{ hero.button_text }}</a>
+  </div>
+</section>
+{% endwith %}
+
+<section class="lavinya-features">
+  <div class="features-container">
+    <div class="feature-item">
+      <div class="feature-icon">👨‍🍳</div>
+      <h3>Profesyonel Şefler</h3>
+      <p>Alanında uzman şeflerimizle her tabak özel hazırlanır.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌿</div>
+      <h3>Doğayla İç İçe</h3>
+      <p>Huzurlu ve doğal atmosferimizle kendinizi yenileyin.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎉</div>
+      <h3>Özel Organizasyonlar</h3>
+      <p>Düğün, nişan ve tüm özel günleriniz için profesyonel destek.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🥇</div>
+      <h3>Kalite ve Hijyen</h3>
+      <p>Yüksek standartlarda temiz ve güvenilir hizmet.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="index-about" id="hakkimizda">
+
+  <!-- Blok 1 -->
+  <div class="about-block">
+    <div class="about-text">
+      <h2>✅ Biz Kimiz?</h2>
+      <p>
+        Lavinya Garden Restaurant & Wedding Area; doğayla iç içe atmosferi, kaliteli hizmet anlayışı ve lezzet odaklı mutfağıyla misafirlerine özel anlar sunan butik bir yaşam alanıdır.
+        <br><br>
+        Kurulduğumuz günden bu yana, her misafiri özel, her etkinliği benzersiz kabul ediyoruz. Tecrübeli ekibimizle düğünlerden doğum günlerine, kurumsal organizasyonlardan özel yemek davetlerine kadar her detayı titizlikle planlıyoruz.
+        <br><br>
+        <strong>Misyonumuz:</strong> Sıcak, samimi ve profesyonel bir ortamda unutulmaz deneyimler yaşatmak.<br>
+        <strong>Vizyonumuz:</strong> Lavinya'yı bölgenin en güvenilir ve prestijli etkinlik mekânı haline getirmektir.
+      </p>
+    </div>
+    <div class="about-image">
+      <img src="{% static 'images/about.jpg' %}" alt="Lavinya Garden">
+    </div>
+  </div>
+
+  <!-- Blok 2 -->
+  <div class="about-block reverse">
+        <div class="about-text">
+      <h2>🥩 Özel Et Lezzetleri</h2>
+      <p>
+        Usta şeflerimizin özel tarifleri ve modern sunumlarıyla hazırlanan et menümüz, sadece bir yemek değil bir deneyim sunar.
+        <br><br>
+        Yüksek kalite standartlarına uygun seçilmiş malzemeler, hijyenik mutfağımızda özenle hazırlanır. Menüde yer alan her seçenek, damak zevkinize hitap edecek şekilde tasarlanmıştır.
+      </p>
+    </div>
+    <div class="about-image">
+      <img src="{% static 'images/about2.jpg' %}" alt="Et Menüleri">
+    </div>
+  </div>
+
+  <!-- Blok 3 -->
+  <div class="about-block">
+    <div class="about-text">
+      <h2>🎉 Etkinlik & Organizasyon Alanı</h2>
+      <p>
+        Lavinya Garden, doğayla bütünleşik atmosferi sayesinde düğün, nişan, doğum günü ve kurumsal etkinlikler gibi birçok özel davet için mükemmel bir mekân sunar.
+        <br><br>
+        Geniş açık hava alanlarımız, profesyonel organizasyon desteğimiz ve kişiye özel hizmet anlayışımız ile hayal ettiğiniz etkinliği gerçeğe dönüştürüyoruz.
+      </p>
+    </div>
+    <div class="about-image">
+      <img src="{% static 'images/about3.jpg' %}" alt="Organizasyon Alanı">
+    </div>
+  </div>
+
+</section>
+
+
+<section class="lavinya-gallery">
+  <h2>Organizasyonlarımızdan Kareler</h2>
+  <div class="lavinya-gallery-wrapper">
+    
+    <!-- Önceki buton -->
+    <button class="lavinya-gallery-prev" aria-label="Önceki görseli göster">
+      &#10094;
+    </button>
+
+    <!-- Galeri görselleri -->
+    <div class="lavinya-gallery-track">
+      {% for image in gallery_images %}
+        <img src="{{ image.image.url }}" alt="{{ image.title|default:'Galeri Görseli' }}">
+      {% endfor %}
+    </div>
+
+    <!-- Sonraki buton -->
+    <button class="lavinya-gallery-next" aria-label="Sonraki görseli göster">
+      &#10095;
+    </button>
+
+  </div>
+</section>
+
+<section class="instagram-feed">
+  <h2>Bizi Instagram’da Takip Edin</h2>
+
+  <!-- LightWidget WIDGET -->
+  <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
+<iframe src="//lightwidget.com/widgets/7c6f286d7d8d588aa6c6ad1cc092653b.html"
+        scrolling="no"
+        allowtransparency="true"
+        class="lightwidget-widget"
+        style="width:90%; height: 100px; border:0; overflow:hidden;">
+</iframe>
+
+  <a href="https://instagram.com/lavinyagardenrestaurant" 
+     target="_blank" 
+     class="lavinya-btn" 
+     style="margin-top: 15px; display: inline-block;">
+    Instagram’da Takip Et
+  </a>
+</section>
+
+
+
+<section class="lavinya-reviews">
+  <h2>Müşteri Yorumları</h2>
+  <div class="lavinya-review-cards">
+    <div class="lavinya-review">
+      <p>“Harika yemekler ve mükemmel bir atmosfer!”</p>
+      <span>– Ayşe T.</span>
+    </div>
+    <div class="lavinya-review">
+      <p>“Organizasyonumuz unutulmaz oldu, teşekkür ederiz.”</p>
+      <span>– Mehmet B.</span>
+    </div>
+    <div class="lavinya-review">
+      <p>“Hizmet ve lezzet muazzamdı. Tavsiye ederim.”</p>
+      <span>– Elif K.</span>
+    </div>
+  </div>
+</section>
+
+<footer class="modern-footer">
+  <div class="footer-wrapper">
+
+<div class="footer-col">
+  <img src="{% static 'images/siyah2.png' %}" alt="Lavinya Logo" style="width: 100%; max-width: 300px; height: auto; object-fit: contain; margin-bottom: 20px;">
+</div>
+
+<div class="footer-col">
+  <h4>İletişim</h4>
+  <p><i class="fas fa-map-marker-alt"></i> Yeşilköy, Simav / Kütahya</p>
+  <p>
+    <i class="fas fa-envelope"></i>
+    <a href="mailto:lavinyarezervasyon@gmail.com">lavinyarezervasyon@gmail.com</a>
+  </p>
+  <p>
+    <i class="fas fa-phone-alt"></i>
+    <a href="tel:+905550438243">+90 555 043 82 43</a>
+  </p>
+</div>
+
+    
+    <div class="footer-col">
+      <h4>Hızlı Erişim</h4>
+      <ul>
+        <li><a href="#">Anasayfa</a></li>
+        <li><a href="#">Hakkımızda</a></li>
+        <li><a href="#">Menü</a></li>
+        <li><a href="#">Organizasyonlar</a></li>
+        <li><a href="#">Galeri</a></li>
+        <li><a href="#">Rezervasyon</a></li>
+        <li><a href="#">İletişim</a></li>
+      </ul>
+    </div>
+
+    
+    <div class="footer-col">
+      <h4>Sosyal Medya</h4>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/lavinyagardenrestaurant/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    
+    <div class="footer-col">
+      <h4>Konum</h4>
+      <div class="map-frame">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.208382197883!2d28.997406!3d39.0686333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c83fdc68bb30ab%3A0x9c4cab9dd2764e45!2sYe%C5%9Filk%C3%B6y%2FSimav%2FK%C3%BCtahya!5e0!3m2!1str!2str!4v1710000000000" 
+          width="100%" height="160" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+
+  </div>
+<div class="footer-bottom">
+  <span>© 2025 Lavinya Garden Restaurant | Tüm Hakları Saklıdır.</span>
+  <a href="https://github.com/BahadirYasin" class="designer-credit" target="_blank">
+    Designed by Bahadır Yasin Çetinsoy
+  </a>
+</div>
+</footer>
+
+<a 
+  href="https://web.whatsapp.com/send?phone=8503070043&text=Merhaba%20Lavinya%20Restaurant%21%0ARezervasyon%20yapmak%20istiyorum."
+  target="_blank" 
+  id="whatsapp-float" 
+  rel="noopener noreferrer"
+  aria-label="WhatsApp ile iletişime geç"
+>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+</a>
+
+<div id="lavinya-popup" class="lavinya-popup">
+  <p>🎁 Özel fırsatları kaçırmayın! <br>Rezervasyon için hemen tıklayın.</p>
+  <a href="{% url 'reservation' %}" class="popup-btn">Rezervasyon Yap</a>
+  <span class="popup-close" aria-label="Kapat">×</span>
+</div>
+
+
+<style>
+  #whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    border-radius: 50%;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #whatsapp-float img {
+    width: 35px;
+    height: 35px;
+  }
+
+  #whatsapp-float:hover {
+    background-color: #1ebe57;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle   = document.querySelector('.organizations-dropdown-toggle');
+  const submenu  = document.querySelector('.organizations-dropdown-menu');
+
+  if (!toggle || !submenu) return;
+
+  toggle.addEventListener('click', e => {
+    // Sadece mobilde (<=1048px) tıklama ile aç/kapat
+    if (window.innerWidth <= 1048) {
+      e.preventDefault();                // "#" linkini engelle
+      submenu.classList.toggle('open');  // menüyü aç/kapat
+      toggle.querySelector('i').classList.toggle('rotate'); // ok ikonunu döndür
+    }
+  });
+});
+</script>
+
+
+<script>
+  const hamburger = document.getElementById('hamburger-btn');
+  const navMenu = document.getElementById('nav-menu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('open');
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !expanded);
+  });
+
+  hamburger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      hamburger.click();
+    }
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const blocks = document.querySelectorAll('.about-block');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    blocks.forEach(block => observer.observe(block));
+  });
+</script>
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.lavinya-gallery-track');
+    const next = document.querySelector('.lavinya-gallery-next');
+    const prev = document.querySelector('.lavinya-gallery-prev');
+    if (!track || !next || !prev) return;
+
+    const scrollAmount = track.clientWidth * 0.8;
+
+    next.addEventListener('click', () => {
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    prev.addEventListener('click', () => {
+      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+  });
+</script>
+
+
+
+<script>
+  const header = document.querySelector('header');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('shrink');
+    } else {
+      header.classList.remove('shrink');
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const popup = document.getElementById('lavinya-popup');
+      if (popup) {
+        popup.classList.add('show');
+      }
+    }, 10000); // 10 saniye sonra göster
+
+    // Kapatma düğmesi
+    const closeBtn = document.querySelector('.popup-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        const popup = document.getElementById('lavinya-popup');
+        if (popup) {
+          popup.classList.remove('show');
+        }
+      });
+    }
+  });
+</script>
+
+
+</body>
+
+</html>
+
+ 
