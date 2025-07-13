@@ -27,11 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'insecure-default-key')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Render dış dünyadan gelen istekleri engeller, burada domain tanımı önemli
-allowed_hosts = os.environ.get('ALLOWED_HOSTS')
-if allowed_hosts:
-    ALLOWED_HOSTS = allowed_hosts.split(',')
-else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['lavinya-production.up.railway.app', 'localhost', '127.0.0.1']
 
 
 # Application definition
