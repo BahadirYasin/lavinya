@@ -20,6 +20,11 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "insecure-default-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://lavinya-production.up.railway.app',
+]
+
+
 
 # Application definition
 
