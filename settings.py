@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY from environment
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'insecure-default-key')
+allowed_hosts = os.environ.get('ALLOWED_HOSTS')
 
-# DEBUG flag
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-
-ALLOWED_HOSTS = ['lavinya-production.up.railway.app']
+if allowed_hosts:
+    ALLOWED_HOSTS = allowed_hosts.split(',')
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
