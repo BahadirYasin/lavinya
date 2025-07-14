@@ -13,5 +13,5 @@ urlpatterns = [
     path('cafe/', views.cafe_view, name='cafe'),
     
     
-    # istediğin diğer url'ler
+  
 ]
