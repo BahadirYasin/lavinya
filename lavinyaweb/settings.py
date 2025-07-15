@@ -24,12 +24,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-bc495$xe4&9h762_1b$+2kg%*@r-3af*-a(yn!v_wu2coo0a$7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "lavinya-production.up.railway.app",
+    "lavinyarestaurant.com",
+    "www.lavinyarestaurant.com",
+]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://lavinya-production.up.railway.app',
+    'https://lavinyarestaurant.com',
+    'https://www.lavinyarestaurant.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
 ]
