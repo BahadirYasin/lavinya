@@ -90,12 +90,14 @@ WSGI_APPLICATION = 'lavinyaweb.wsgi.application'
 
 
 if os.getenv("RAILWAY_ENVIRONMENT"):
+    config = dj_database_url.config(
+        default='postgresql://postgres:RwLwJVeSNvrWJAynvUMZoAjOciXHlPGF@postgres.railway.internal:5432/railway',
+        conn_max_age=600,
+    )
+    # dj_database_url.config() ENGINE vermez, bunu elle ekliyoruz
+    config['ENGINE'] = 'django.db.backends.postgresql'
     DATABASES = {
-        'default': dj_database_url.config(
-            default='postgresql://postgres:RwLwJVeSNvrWJAynvUMZoAjOciXHlPGF@postgres.railway.internal:5432/railway',
-            conn_max_age=600,
-            engine='django.db.backends.postgresql'
-        )
+        'default': config
     }
 else:
     DATABASES = {
@@ -104,6 +106,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
 
 
 
