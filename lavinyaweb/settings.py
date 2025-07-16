@@ -86,12 +86,21 @@ WSGI_APPLICATION = 'lavinyaweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.environ.get('RAILWAY_ENV'):  # Railway ortamında bu env değişkeni olabilir
+    DATABASES = {
+        'default': dj_database_url.config(
+            default='postgresql://postgres:RwLwJVeSNvrWJAynvUMZoAjOciXHlPGF@postgres.railway.internal:5432/railway'
+        )
     }
-}
+else:
+    # Lokal geliştirme için SQLite kullan
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
