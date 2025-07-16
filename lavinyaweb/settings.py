@@ -86,13 +86,15 @@ WSGI_APPLICATION = 'lavinyaweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url
-import os
+
+
 
 if os.getenv("RAILWAY_ENVIRONMENT"):
     DATABASES = {
         'default': dj_database_url.config(
-            default='postgresql://postgres:RwLwJVeSNvrWJAynvUMZoAjOciXHlPGF@postgres.railway.internal:5432/railway'
+            default='postgresql://postgres:RwLwJVeSNvrWJAynvUMZoAjOciXHlPGF@postgres.railway.internal:5432/railway',
+            conn_max_age=600,
+            engine='django.db.backends.postgresql'
         )
     }
 else:
