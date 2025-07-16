@@ -342,13 +342,14 @@
     <div class="footer-col">
       <h4>Hızlı Erişim</h4>
       <ul>
-        <li><a href="#">Anasayfa</a></li>
-        <li><a href="#">Hakkımızda</a></li>
-        <li><a href="#">Menü</a></li>
-        <li><a href="#">Organizasyonlar</a></li>
-        <li><a href="#">Galeri</a></li>
-        <li><a href="#">Rezervasyon</a></li>
-        <li><a href="#">İletişim</a></li>
+        <li><a href="{% url 'index' %}">Anasayfa</a></li>
+        <li><a href="{% url 'index' %}#hakkimizda" class="nav-about">Hakkımızda</a></li>
+        <li><a href="{% url 'menu' %}">Menü</a></li>
+        <li><a href="{% url 'cafe' %}">Cafe</a></li>
+        <li><a href="{% url 'organizations' %}">Organizasyonlar</a></li>
+        <li><a href="{% url 'gallery' %}">Galeri</a></li>
+        <li><a href="{% url 'reservation' %}">Rezervasyon</a></li>
+        <li><a href="{% url 'contact' %}">Iletisim</a></li>
       </ul>
     </div>
 
