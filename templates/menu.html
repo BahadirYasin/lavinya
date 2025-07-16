@@ -12,7 +12,88 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
 
-  
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Playfair Display', serif;
+      background-color: #fdfcf9;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .coming-soon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .logo-img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .coming-soon-text {
+      font-size: 48px;
+      font-weight: 700;
+      color: #264839;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    /* Mobil görünüm için uyarlamalar */
+    @media (max-width: 480px) {
+      .coming-soon-text {
+        font-size: 32px;
+        letter-spacing: 1px;
+      }
+
+      .logo-img {
+        max-width: 300px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="coming-soon-container"> 
+    <img src="{% static 'images/tabela1.png' %}" alt="Logo" class="logo-img" />
+    <div class="coming-soon-text">Çok Yakında</div>
+  </div>
+
+</body>
+
+
+
+
+    <!--  burdan aşağısı asıl kod --!
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     <script>
@@ -51,7 +132,7 @@
 </head>
 <body>
 
-<!-- header aynen -->
+ header aynen
 <div class="top-bar">
   <div class="top-bar-left">
     <span><i class="fas fa-envelope"></i> lavinyarezervasyon@gmail.com</span>
@@ -115,7 +196,7 @@
 </script>
 
 
-<!-- Menü Başlığı ve Kapak Fotoğrafı -->
+Menü Başlığı ve Kapak Fotoğrafı 
 <section class="menu-hero">
   Restaurant Menü
   <button id="scroll-down-btn" aria-label="Menüye git">
@@ -241,7 +322,7 @@
 </div>
 </footer>
 
-<!-- JS dosyalarını çağır -->
+ JS dosyalarını çağır 
 <script src="{% static 'js/gallery-slider.js' %}" defer></script>
 
 <script>
@@ -276,13 +357,15 @@
   });
 </script>
 
-<!-- jQuery (Lightbox2 için gerekebilir) -->
+ jQuery (Lightbox2 için gerekebilir) 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-<!-- Lightbox JS -->
+ Lightbox JS 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
 
 
 </body>
 </html>
+
+-->
