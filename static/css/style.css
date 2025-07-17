@@ -123,20 +123,24 @@ header.shrink .mobile-title {
 @media (max-width: 1048px) {
   .top-bar {
     justify-content: space-between;
-    padding: 3px 10px;
-    font-size: 9px;
+    padding: 3px 2px;
+    font-size: 5px;
     flex-wrap: nowrap;
   }
 
   .top-bar-left {
+    max-width: 90%;
     display: flex;
-    gap: 1px;
+    gap: 2px;
     flex-wrap: nowrap;
     align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .top-bar-left span {
-    font-size: 9px;
+    font-size: 10px;
     white-space: nowrap;
   }
 
@@ -144,11 +148,20 @@ header.shrink .mobile-title {
     display: flex;
     gap: 2px;
     align-items: center;
+    max-width: 100px;
     
   }
 
   .top-bar-right a {
     font-size: 11px;
+  }
+
+  .top-bar-left {
+  flex-shrink: 1;
+  }
+
+.top-bar-right {
+  flex-shrink: 0; /* Sağ taraf daralmasın */
   }
 }
 @media (max-width: 768px) {
