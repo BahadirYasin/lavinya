@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from django.contrib import sitemaps
 from django.contrib.sitemaps.views import sitemap
 from main.sitemaps import StaticViewSitemap
+from django.views.generic import TemplateView
 
 sitemaps_dict = {
     'static': StaticViewSitemap,
@@ -31,6 +32,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),  
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps_dict}, name='django.contrib.sitemaps.views.sitemap'),
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+
 ]
 
 if settings.DEBUG:
