@@ -5,13 +5,13 @@ class StaticViewSitemap(Sitemap):
     changefreq = 'monthly'
 
     def items(self):
-        return ['home', 'menu', 'gallery', 'contact', 'reservation', 'cafe', 'organizations']
+        return ['index', 'menu', 'gallery', 'contact', 'reservation', 'cafe', 'organizations']
 
     def location(self, item):
         return reverse(item)
 
     def priority(self, item):
-        if item == 'home':
+        if item == 'index':
             return 1.0
         elif item in ['menu', 'reservation']:
             return 0.8
