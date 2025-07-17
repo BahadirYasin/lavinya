@@ -2,11 +2,18 @@ from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
 
 class StaticViewSitemap(Sitemap):
-    priority = 0.5
     changefreq = 'monthly'
 
     def items(self):
-        return ['index', 'menu', 'gallery', 'contact', 'reservation','cafe','organizations']
+        return ['home', 'menu', 'gallery', 'contact', 'reservation', 'cafe', 'organizations']
 
     def location(self, item):
         return reverse(item)
+
+    def priority(self, item):
+        if item == 'home':
+            return 1.0
+        elif item in ['menu', 'reservation']:
+            return 0.8
+        else:
+            return 0.5
