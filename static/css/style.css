@@ -219,10 +219,29 @@ header.shrink .mobile-title {
   user-select: none;
   cursor: default;
   margin-right: 20px;
+  margin-left: 60px; /* Logo'yu daha sağa kaydır */
+}
+
+/* Responsive logo pozisyonu */
+@media (max-width: 1200px) {
+  .logo {
+    margin-left: 45px; /* Orta ekranlarda biraz azalt */
+  }
+}
+
+@media (max-width: 1048px) {
+  .logo {
+    margin-left: 20px; /* Mobilde normal pozisyon */
+  }
+}
+
+.logo-link {
+  text-decoration: none;
+  display: block;
 }
 
 .logo-img {
-  height: 80px;
+  height: 90px; /* Logo'yu büyüt */
   transition: height 0.3s ease, filter 0.3s ease;
   cursor: pointer;
 }
@@ -233,19 +252,19 @@ header.shrink .mobile-title {
 }
 
 header.shrink .logo-img {
-  height: 50px;
+  height: 60px; /* Shrink durumunda da büyük kalsın */
 }
 
 /* NAV */
 nav {
   display: flex;
-  gap: 40px;
+  gap: 35px; /* Boşlukları azalt */
   margin: 0 auto;
 }
 
 nav a {
   text-decoration: none;
-  font-size: larger;
+  font-size: 16px; /* Font size'ı küçült */
   font-family: 'Copperplate', 'Copperplate Gothic Light', fantasy;
   color: #002819;
   font-weight: 1000;
@@ -257,7 +276,7 @@ nav a:hover {
 }
 
 header.shrink nav a {
-  font-size: 0.9rem;
+  font-size: 14px; /* Shrink durumunda daha küçük */
   transition: font-size 0.3s ease;
 }
 
@@ -332,6 +351,93 @@ header.shrink nav a {
   text-decoration: none;
   border-bottom: 1px solid #f0f0f0;
 }
+
+/* Mobil menüde dropdown linkleri için özel stil */
+@media (max-width: 1048px) {
+  /* Mobilde dropdown menüyü gizle */
+  .organizations-dropdown-menu {
+    display: none !important;
+  }
+
+  /* Mobilde dropdown toggle ikonunu gizle */
+  .organizations-dropdown-toggle i {
+    display: none !important;
+  }
+
+  /* Mobilde dropdown toggle linkini normal link gibi yap */
+  .organizations-dropdown-toggle {
+    color: #e5e3d3 !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    text-decoration: none !important;
+    padding: 20px 20px !important;
+    border-top: 1px solid rgba(255,255,255,0.25) !important; /* Daha belirgin çizgi */
+    margin-bottom: 5px !important;
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* İlk dropdown toggle için üst border'ı kaldır */
+  .organizations-dropdown-toggle:first-child {
+    border-top: none !important;
+  }
+
+  /* Organizasyonlar dropdown container'ı için özel stil */
+  .organizations-dropdown {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  /* Dropdown toggle hover efekti */
+  .organizations-dropdown-toggle:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e5e3d3, transparent);
+    opacity: 0.7;
+  }
+
+  .organizations-dropdown-menu a {
+    color: #e5e3d3 !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Şeffaf beyaz çizgi */
+    padding: 15px 25px; /* Padding'i artırdık */
+    margin-bottom: 3px; /* Alt boşluk ekledik */
+    position: relative; /* Hover efekti için */
+  }
+
+  /* Son dropdown link için alt border'ı kaldır */
+  .organizations-dropdown-menu a:last-child {
+    border-bottom: none;
+  }
+
+  /* Dropdown linklerde hover efekti */
+  .organizations-dropdown-menu a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e5e3d3, transparent);
+    opacity: 0.5;
+  }
+
+  .organizations-dropdown-menu a:hover {
+    color: #ffffff !important;
+    background-color: rgba(255,255,255,0.1);
+  }
+}
 .organizations-dropdown-menu a:hover { background: #f5f5f5; }
 
 
@@ -371,15 +477,16 @@ header.shrink nav a {
     right: 0;
     height: 100vh;
     width: 250px;
-    background-color: #264839;
+    background-color: #2d5a47; /* Biraz daha açık yeşil */
     flex-direction: column;
     padding-top: 80px;
-    gap: 0;
+    gap: 8px; /* Nav öğeleri arası boşluk */
     overflow-y: auto;
     max-height: 100vh;
     transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 30;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.3); /* Gölge efekti */
   }
 
   nav.open {
@@ -387,14 +494,54 @@ header.shrink nav a {
   }
 
   nav a {
-    padding: 15px 20px;
-    border-top: 1px solid #3a5a40;
+    padding: 20px 20px; /* Padding'i artırdık */
+    border-top: 1px solid rgba(255,255,255,0.25); /* Daha belirgin beyaz çizgi */
+    color: #e5e3d3 !important; /* Açık krem rengi */
+    font-family: 'Poppins', sans-serif !important; /* Modern font */
+    font-weight: 500 !important; /* Daha okunabilir font weight */
+    font-size: 16px !important; /* Daha büyük font */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Okunabilirlik için gölge */
+    margin-bottom: 5px; /* Alt boşluk ekledik */
+    position: relative; /* Hover efekti için */
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+
+  /* İlk nav öğesi için üst border'ı kaldır */
+  nav a:first-child {
+    border-top: none;
+  }
+
+  /* Hover'da alt çizgi efekti */
+  nav a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e5e3d3, transparent);
+    opacity: 0.7;
+  }
+
+  nav a:hover {
+    color: #ffffff !important; /* Hover'da beyaz */
+    background-color: rgba(255,255,255,0.1); /* Hafif beyaz arka plan */
   }
 
   .hamburger {
     display: flex;
     z-index: 40;
-    
+    position: fixed;
+    top: 50px; /* Top bar + header height'ın ortası */
+    right: 20px;
+    transform: translateY(-50%);
+  }
+
+  /* Header shrink olduğunda hamburger pozisyonunu koru */
+  header.shrink .hamburger {
+    top: 50px; /* Aynı pozisyonda kal */
   }
 }
 
