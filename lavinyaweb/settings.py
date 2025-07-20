@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'main',
     'django.contrib.sitemaps',
 ]
@@ -146,8 +147,20 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Cloudinary Media Settings
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dleullkdl',
+    'API_KEY': '775678826347187',
+    'API_SECRET': '_WuxFOQ7bUjT6ESpkjCjFU9zxIA'  # API Secret'ı buraya yaz
+}
+
+# Media files configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Use Cloudinary for media files in production
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
