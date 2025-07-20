@@ -5,9 +5,9 @@ from pathlib import Path
 
 # Cloudinary configuration
 cloudinary.config(
-    cloud_name='your-cloud-name',  # Cloudinary cloud name'inizi buraya yazın
-    api_key='your-api-key',        # Cloudinary API key'inizi buraya yazın
-    api_secret='your-api-secret'   # Cloudinary API secret'ınızı buraya yazın
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
 
 def upload_media_files():
