@@ -155,8 +155,8 @@ CLOUDINARY_STORAGE = {
 }
 
 # Media files configuration
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR / 'media'
 
 # Use Cloudinary for media files in production
 if not DEBUG:
