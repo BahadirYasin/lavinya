@@ -7,6 +7,7 @@ from .models import IndexGallery
 from django.core.mail import send_mail
 from django.contrib import messages
 from .models import CafeSection
+from .models import Organization
 
 def index(request):
     hero_section = HeroSection.objects.all()
@@ -93,6 +94,40 @@ def organizations(request):
 def cafe_view(request):
     cafe_sections = CafeSection.objects.prefetch_related('items').all()
     return render(request, 'cafe.html', {'cafe_sections': cafe_sections})
+
+
+
+def organization_view(request):
+    if request.method == 'POST':
+        data = request.POST
+        org = Organization(
+            name=data.get('name'),
+            email=data.get('email'),
+            phone=data.get('phone'),
+            date=data.get('date'),
+            time=data.get('time'),
+            salon_ucreti=data.get('salon_ucreti') or 0,
+            muzisyen=bool(data.get('muzisyen')),
+            fotografci=bool(data.get('fotografci')),
+            qr_photo_sharing=bool(data.get('qr_photo_sharing')),
+            kina_konsept=bool(data.get('kina_konsept')),
+            dugun_konsept=bool(data.get('dugun_konsept')),
+            ikram_yas_pasta=data.get('ikram_yas_pasta') or 0,
+            ikram_kuru_pasta=data.get('ikram_kuru_pasta') or 0,
+            ikram_cerez=data.get('ikram_cerez') or 0,
+            ikram_mesrubat=data.get('ikram_mesrubat') or 0,
+            ikram_cay=data.get('ikram_cay') or 0,
+            yemek_var=bool(data.get('yemek_var')),
+            yemek_kisi_sayisi=data.get('yemek_kisi_sayisi') or 0,
+            yemek_aciklama=data.get('yemek_aciklama'),
+            araba_susleme=bool(data.get('araba_susleme')),
+            vip_arac=bool(data.get('vip_arac')),
+            detail=data.get('detail'),
+        )
+        org.save()
+        messages.success(request, 'Organizasyon başvurunuz alındı!')
+        return redirect('organizations')
+    return render(request, 'organizations.html')
 
 
 
