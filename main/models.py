@@ -2,6 +2,7 @@
 
 # Create your models here.
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 #REZERVASYON FORMU MODELİ
@@ -22,7 +23,7 @@ class Reservation(models.Model):
 #ANASAYFADAKİ HERO, RESMİ VE AÇIKLAMASI DEĞİŞTİRME MODELİ
 
 class HeroSection(models.Model):
-    background_image = models.ImageField(upload_to='hero/', verbose_name="Arka Plan Görseli")
+    background_image = CloudinaryField('image')
     title = models.CharField(max_length=100, verbose_name="Başlık")
     subtitle = models.CharField(max_length=200, verbose_name="Alt Başlık")
     button_text = models.CharField(max_length=50, verbose_name="Buton Yazısı")

@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -152,7 +155,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dleullkdl',
     'API_KEY': '793892168798272',
-    'API_SECRET': 'C-SIoLDUhIFa9GwasvOpXycJj9w'
+    'API_SECRET': 'C-SIoLDUhIFa9GwasvOpXycJj9w' 
 }
 
 # Cloudinary her ortamda aktif olsun
