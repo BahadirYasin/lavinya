@@ -48,7 +48,8 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
 
     def __str__(self):
-        return f"{self.name} ({self.section.title})"  
+        section_title = getattr(self.section, "title", "")
+        return f"{self.name} ({section_title})"  
 
 #GALERİ SAYFASINDAKİ RESİMLERİ DÜZENLEME EKLEME ÇIKARMA MODELİ  
 
@@ -67,7 +68,7 @@ class IndexGallery(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title or f"Index Görseli {self.id}"
+        return self.title or f"Index Görseli {getattr(self, 'id', '')}"
     
 from django.db import models
 
