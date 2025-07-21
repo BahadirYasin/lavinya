@@ -1736,90 +1736,51 @@ header.shrink nav a {
 
 
 
-.organization-form {
+/* static/css/organization.css */
+.organization-container {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-  padding: 2rem 2.5rem;
-  margin: 2rem auto 2.5rem auto;
-  max-width: 540px;
-  font-family: 'Poppins', Arial, sans-serif;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  font-family: "Segoe UI", sans-serif;
 }
-.organization-form h2 {
+
+.organization-container .title {
+  font-size: 1.8rem;
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #2d2d2d;
 }
-.organization-form label {
-  display: block;
-  margin-bottom: 0.7rem;
-  color: #333;
-  font-weight: 500;
-}
-.organization-form input[type="text"],
-.organization-form input[type="email"],
-.organization-form input[type="date"],
-.organization-form input[type="time"],
-.organization-form input[type="number"],
-.organization-form textarea {
+
+.organization-container form input,
+.organization-container form textarea,
+.organization-container form select {
   width: 100%;
-  padding: 0.5rem 0.7rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  margin-top: 0.2rem;
-  margin-bottom: 0.8rem;
-  font-size: 1rem;
-  background: #fafbfc;
-  transition: border 0.2s;
-}
-.organization-form input:focus,
-.organization-form textarea:focus {
-  border: 1.5px solid #a3c9a8;
-  outline: none;
-}
-.organization-form fieldset {
-  border: 1px solid #e5e7eb;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  margin-bottom: 1.2rem;
-  padding: 1rem 1rem 0.5rem 1rem;
-  background: #f7f7f7;
 }
-.organization-form legend {
-  font-weight: 600;
-  color: #2d2d2d;
-  margin-bottom: 0.5rem;
-}
-.organization-form input[type="checkbox"] {
-  margin-right: 0.5rem;
-  accent-color: #a3c9a8;
-}
-.organization-form button[type="submit"] {
-  background: linear-gradient(90deg, #a3c9a8 0%, #6e8f6e 100%);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 0.7rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 1rem;
+
+.organization-container button {
   width: 100%;
-  box-shadow: 0 2px 8px rgba(163,201,168,0.08);
-  transition: background 0.2s;
+  background-color: #8a1538;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
 }
-.organization-form button[type="submit"]:hover {
-  background: linear-gradient(90deg, #6e8f6e 0%, #a3c9a8 100%);
+
+.organization-container button:hover {
+  background-color: #6d102d;
 }
-.alert.alert-success {
-  background: #e6f9e6;
-  color: #2d6a2d;
-  border: 1px solid #b6e6b6;
-  border-radius: 6px;
-  padding: 0.7rem 1rem;
-  margin-bottom: 1.2rem;
-  text-align: center;
-  font-weight: 500;
-}
+
+
+
+
 
 
 

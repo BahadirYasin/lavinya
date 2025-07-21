@@ -80,44 +80,18 @@
   });
 </script>
 
-{% if messages %}
-  {% for message in messages %}
-    <div class="alert alert-success">{{ message }}</div>
-  {% endfor %}
-{% endif %}
-<form method="post" style="margin-bottom:2rem;">
-  {% csrf_token %}
-  <h2>Lavinya Düğün Organizasyon Formu</h2>
-  <label>Ad Soyad: <input type="text" name="name" required></label><br>
-  <label>E-posta: <input type="email" name="email" required></label><br>
-  <label>Telefon: <input type="text" name="phone" required></label><br>
-  <label>Tarih: <input type="date" name="date" required></label><br>
-  <label>Saat: <input type="time" name="time" required></label><br>
-  <label>Salon Ücreti: <input type="number" name="salon_ucreti" step="0.01"></label><br>
-  <label><input type="checkbox" name="muzisyen"> Müzisyen / Şantör</label><br>
-  <label><input type="checkbox" name="fotografci"> Fotoğrafçı</label><br>
-  <label><input type="checkbox" name="qr_photo_sharing"> QR Kod Fotoğraf Paylaşımı (Opsiyonel)</label><br>
-  <label><input type="checkbox" name="kina_konsept"> Kına Konsepti</label><br>
-  <label><input type="checkbox" name="dugun_konsept"> Düğün Konsepti</label><br>
-  <fieldset>
-    <legend>İkram Seçenekleri (kişi başı)</legend>
-    <label>Yaş Pasta: <input type="number" name="ikram_yas_pasta" min="0"></label>
-    <label>Kuru Pasta: <input type="number" name="ikram_kuru_pasta" min="0"></label>
-    <label>Çerez: <input type="number" name="ikram_cerez" min="0"></label>
-    <label>Meşrubat: <input type="number" name="ikram_mesrubat" min="0"></label>
-    <label>Çay: <input type="number" name="ikram_cay" min="0"></label>
-  </fieldset>
-  <fieldset>
-    <legend>Yemek Seçenekleri</legend>
-    <label><input type="checkbox" name="yemek_var"> Yemek İstiyorum</label>
-    <label>Kişi Başı: <input type="number" name="yemek_kisi_sayisi" min="0"></label>
-    <label>Açıklama: <textarea name="yemek_aciklama"></textarea></label>
-  </fieldset>
-  <label><input type="checkbox" name="araba_susleme"> Araba Süsleme</label><br>
-  <label><input type="checkbox" name="vip_arac"> Gün Boyu Şoförlü VIP Araç Hizmeti</label><br>
-  <label>Ek Notlar: <textarea name="detail"></textarea></label><br>
-  <button type="submit">Başvur</button>
-</form>
+<!-- templates/organizations.html -->
+<div class="organization-container">
+  <h2 class="title">Lavinya Düğün Organizasyon Formu</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Gönder</button>
+  </form>
+</div>
+
+
+
 
 <!-- ===================== ORGANİZASYONLAR ===================== -->
 <section class="organizations-section" id="organizasyonlar">
