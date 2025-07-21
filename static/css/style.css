@@ -1736,48 +1736,112 @@ header.shrink nav a {
 
 
 
-/* static/css/organization.css */
 .organization-container {
   background: #fff;
-  padding: 2rem;
-  max-width: 800px;
-  margin: 2rem auto;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-  font-family: "Segoe UI", sans-serif;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 540px;
+  margin: 2.5rem auto;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 1.5px 6px rgba(163,21,56,0.04);
+  border-radius: 18px;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  transition: box-shadow 0.2s;
 }
 
 .organization-container .title {
-  font-size: 1.8rem;
+  font-size: 2rem;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  color: #8a1538;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.organization-container form input,
+.organization-container form label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.organization-container form input[type="text"],
+.organization-container form input[type="email"],
+.organization-container form input[type="date"],
+.organization-container form input[type="time"],
+.organization-container form input[type="number"],
 .organization-container form textarea,
 .organization-container form select {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.1rem;
+  border: 1.5px solid #e0e0e0;
   border-radius: 8px;
+  font-size: 1rem;
+  background: #fafbfc;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.organization-container form input:focus,
+.organization-container form textarea:focus,
+.organization-container form select:focus {
+  border: 1.5px solid #8a1538;
+  outline: none;
+  box-shadow: 0 0 0 2px #f3e3ea;
+}
+
+.organization-container form fieldset {
+  border: 1.5px solid #f3e3ea;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1rem 0.5rem 1rem;
+  background: #f9f6f8;
+}
+
+.organization-container form legend {
+  font-weight: 600;
+  color: #8a1538;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.organization-container form input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: #8a1538;
+  transform: scale(1.15);
 }
 
 .organization-container button {
   width: 100%;
-  background-color: #8a1538;
-  color: white;
-  padding: 12px;
+  background: linear-gradient(90deg, #8a1538 0%, #c33764 100%);
+  color: #fff;
+  padding: 0.9rem 0;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px rgba(163,21,56,0.08);
+  letter-spacing: 0.5px;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
 .organization-container button:hover {
-  background-color: #6d102d;
+  background: linear-gradient(90deg, #c33764 0%, #8a1538 100%);
+  box-shadow: 0 4px 16px rgba(163,21,56,0.13);
 }
 
+.organization-container .alert.alert-success {
+  background: #f3e3ea;
+  color: #8a1538;
+  border: 1.5px solid #e0b7c6;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+}
 
 
 
