@@ -85,10 +85,74 @@
   <h2 class="title">Lavinya Düğün Organizasyon Formu</h2>
   <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    <label>Tarih:
+      <input type="date" name="date" required>
+    </label>
+    <label>Saat:
+      <input type="time" name="time" required>
+    </label>
+    <label>Salon Ücreti:
+      <input type="number" name="salon_ucreti" step="0.01" min="0" required>
+    </label>
+    <label>
+      <input type="checkbox" name="muzisyen"> Müzisyen / Şantör
+    </label>
+    <label>
+      <input type="checkbox" name="fotografci"> Fotoğrafçı
+    </label>
+    <label>
+      <input type="checkbox" name="qr_photo_sharing"> QR Kod Fotoğraf Paylaşımı (Opsiyonel)
+    </label>
+    <label>
+      <input type="checkbox" name="kina_konsept"> Kına Konsepti
+    </label>
+    <label>
+      <input type="checkbox" name="dugun_konsept"> Düğün Konsepti
+    </label>
+    <fieldset>
+      <legend>İkram Seçenekleri (kişi başı)</legend>
+      <label>Yaş Pasta: <input type="number" name="ikram_yas_pasta" min="0" value="0"></label>
+      <label>Kuru Pasta: <input type="number" name="ikram_kuru_pasta" min="0" value="0"></label>
+      <label>Çerez: <input type="number" name="ikram_cerez" min="0" value="0"></label>
+      <label>Meşrubat: <input type="number" name="ikram_mesrubat" min="0" value="0"></label>
+      <label>Çay: <input type="number" name="ikram_cay" min="0" value="0"></label>
+    </fieldset>
+    <fieldset>
+      <legend>Yemek Seçenekleri</legend>
+      <label>
+        <input type="checkbox" name="yemek_var" id="yemek_var" onchange="document.getElementById('yemek_detay').style.display = this.checked ? 'block' : 'none';">
+        Yemek İstiyorum
+      </label>
+      <div id="yemek_detay" style="display:none;">
+        <label>Kişi Başı: <input type="number" name="yemek_kisi_sayisi" min="0"></label>
+        <label>Yemek Açıklama: <textarea name="yemek_aciklama"></textarea></label>
+      </div>
+    </fieldset>
+    <label>
+      <input type="checkbox" name="araba_susleme"> Araba Süsleme
+    </label>
+    <label>
+      <input type="checkbox" name="vip_arac"> Gün Boyu Şoförlü VIP Araç Hizmeti
+    </label>
+    <label>Ek Notlar:
+      <textarea name="detail"></textarea>
+    </label>
     <button type="submit">Gönder</button>
   </form>
 </div>
+
+<script>
+  // Yemek seçeneği aç/kapa
+  document.addEventListener('DOMContentLoaded', function() {
+    var yemekVar = document.getElementById('yemek_var');
+    var yemekDetay = document.getElementById('yemek_detay');
+    if (yemekVar) {
+      yemekVar.addEventListener('change', function() {
+        yemekDetay.style.display = this.checked ? 'block' : 'none';
+      });
+    }
+  });
+</script>
 
 
 
