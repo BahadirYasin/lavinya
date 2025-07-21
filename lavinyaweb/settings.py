@@ -154,13 +154,17 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
 }
 
+# Cloudinary her ortamda aktif olsun
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Ortam değişkenleri eksikse uyarı ver
+if not all([CLOUDINARY_STORAGE['CLOUD_NAME'], CLOUDINARY_STORAGE['API_KEY'], CLOUDINARY_STORAGE['API_SECRET']]):
+    import warnings
+    warnings.warn('Cloudinary ortam değişkenleri eksik! CLOUDINARY_CLOUD_NAME, API_KEY, API_SECRET kontrol et.')
+
 # Media files configuration
 #MEDIA_URL = '/media/'
 #MEDIA_ROOT = BASE_DIR / 'media'
-
-# Use Cloudinary for media files in production
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
