@@ -103,7 +103,7 @@
 <section id="order-wrapper-area" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem;">
   <!-- DÜĞÜN ORGANİZASYON -->
   <div style="display: flex; flex: 1 1 100%; max-width: 1200px; gap: 2rem;">
-    <div id="dugun-form" class="orderform" style="flex: 2; background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <div id="dugun-form" class="orderform" style="flex: 2; background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1); display:none;">
       <h2>Düğün Organizasyon Formu</h2>
       <form id="dugun-order-form">
         <label>
@@ -144,7 +144,7 @@
       </form>
     </div>
 
-    <div class="order-summary" style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    <div id="dugun-summary" class="order-summary" style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
       <h4>Toplam Fiyat Özeti</h4>
       <ul id="dugun-summary-list"></ul>
       <strong>Toplam: ₺<span id="dugun-total-price">0</span></strong>
@@ -153,7 +153,7 @@
 
   <!-- NİŞAN ORGANİZASYON -->
   <div style="display: flex; flex: 1 1 100%; max-width: 1200px; gap: 2rem; margin-top: 3rem;">
-    <div id="nisan-form" class="orderform" style="flex: 2; background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <div id="nisan-form" class="orderform" style="flex: 2; background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1); display:none;">
       <h2>Nişan Organizasyon Formu</h2>
       <form id="nisan-order-form">
         <label><input type="checkbox" name="musician" data-price="2000" /> Müzisyen (₺2.000)</label>
@@ -165,13 +165,14 @@
       </form>
     </div>
 
-    <div class="order-summary" style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    <div id="nisan-summary" class="order-summary" style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
       <h4>Toplam Fiyat Özeti</h4>
       <ul id="nisan-summary-list"></ul>
       <strong>Toplam: ₺<span id="nisan-total-price">0</span></strong>
     </div>
   </div>
 </section>
+
 
 
 
@@ -333,34 +334,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 <script>
-  // Sayfa yüklendiğinde tüm formlar ve summary'ler gizlensin
   window.addEventListener('DOMContentLoaded', () => {
+    // Sayfa yüklendiğinde tüm form ve özetleri gizle
     document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
     document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
-  });
 
-  // Formları ve summary'leri gizle / göster
-  document.querySelectorAll('.org-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const type = card.getAttribute('data-type');
+    // Kartlar tıklandığında
+    document.querySelectorAll('.org-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const type = card.getAttribute('data-type');
 
-      // Tüm formları ve summary'leri gizle
-      document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
-      document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
+        // Önce tüm form ve özetleri gizle
+        document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
+        document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
 
-      // İlgili formu göster
-      const activeForm = document.getElementById(type + '-form');
-      if (activeForm) {
-        activeForm.style.display = 'block';
-        activeForm.scrollIntoView({ behavior: 'smooth' });
-        attachOrderFormEvents(activeForm);
-      }
+        // İlgili formu göster
+        const activeForm = document.getElementById(type + '-form');
+        if (activeForm) {
+          activeForm.style.display = 'block';
+          activeForm.scrollIntoView({ behavior: 'smooth' });
 
-      // İlgili summary'yi göster
-      const activeSummary = document.getElementById(type + '-summary');
-      if (activeSummary) {
-        activeSummary.style.display = 'block';
-      }
+          // Formdaki inputlara event bağla (birden fazla bağlanmasın diye kontrol var)
+          if (!activeForm.dataset.eventsAttached) {
+            attachOrderFormEvents(activeForm);
+            activeForm.dataset.eventsAttached = 'true';
+          }
+        }
+
+        // İlgili summary'yi göster
+        const activeSummary = document.getElementById(type + '-summary');
+        if (activeSummary) {
+          activeSummary.style.display = 'block';
+        }
+      });
     });
   });
 
@@ -369,11 +375,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formElement = form.querySelector('form');
     const guestInput = form.querySelector('input[type="number"]');
+    if (!formElement || !guestInput) return;
 
-    // Formun ID'sinden hangi organizasyon olduğunu anla (dugun, nisan)
     const type = form.id.split('-')[0];
-
-    // Form dışındaki summary alanını hedefle
     const summaryList = document.querySelector(`#${type}-summary-list`);
     const totalPriceElem = document.querySelector(`#${type}-total-price`);
 
@@ -384,7 +388,8 @@ document.addEventListener('DOMContentLoaded', () => {
       formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
         if (cb.checked) {
           const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
-          const perPerson = cb.closest('fieldset') ? true : false;
+          // Kişi başı fiyatlar fieldset içinde
+          const perPerson = !!cb.closest('fieldset');
           const guestCount = parseInt(guestInput.value) || 1;
           const price = perPerson ? unitPrice * guestCount : unitPrice;
 
@@ -397,11 +402,15 @@ document.addEventListener('DOMContentLoaded', () => {
       totalPriceElem.textContent = total.toLocaleString('tr-TR');
     }
 
-    // Değişiklik olduğunda özet güncellensin
+    // Formda input değişikliklerinde güncelle
     formElement.addEventListener('input', updateSummary);
+    // Misafir sayısı inputu ayrı update triggerı
+    guestInput.addEventListener('input', updateSummary);
+
     updateSummary();
   }
 </script>
+
 
 
 </body>
