@@ -1734,6 +1734,83 @@ header.shrink nav a {
   cursor: pointer;
 }
 
+/* order-section.css */
+
+.order-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.order-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.order-left h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-left label {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.order-left input[type="number"] {
+  width: 100px;
+  padding: 0.4rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-left: 0.5rem;
+}
+
+.order-summary {
+  flex: 1;
+  background: #f6f6f6;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  min-width: 250px;
+}
+
+.order-summary h4 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.order-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.order-summary li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.order-summary strong {
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 1rem;
+  color: #222;
+}
+
+
 
 
 
