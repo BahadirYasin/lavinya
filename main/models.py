@@ -90,45 +90,46 @@ class CafeItem(models.Model):
     def __str__(self):
         return self.name
 
-    # reservations/models.py
 from django.db import models
 
-class WeddingOrganization(models.Model):
+class OrganizationService(models.Model):
+    SERVICE_CHOICES = [
+        ('salon', 'Salon Ücreti'),
+        ('muzisyen', 'Müzisyen / Şantör'),
+        ('fotografci', 'Fotoğrafçı'),
+        ('qr', 'QR Kod Fotoğraf Paylaşımı'),
+        ('kina', 'Kına Konsepti'),
+        ('dugun', 'Düğün Konsepti'),
+        ('araba', 'Araba Süsleme'),
+        ('vip_arac', 'VIP Araç Hizmeti'),
+        ('yemek_et', 'Yemek (Et)'),
+        ('yemek_tavuk', 'Yemek (Tavuk)'),
+        ('yemek_vegan', 'Yemek (Vegan)'),
+        ('ikram_yas_pasta', 'Yaş Pasta'),
+        ('ikram_kuru_pasta', 'Kuru Pasta'),
+        ('ikram_cerez', 'Çerez'),
+        ('ikram_mesrubat', 'Meşrubat'),
+        ('ikram_cay', 'Çay'),
+    ]
+    key = models.CharField(max_length=32, choices=SERVICE_CHOICES, unique=True)
     name = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=20)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_per_person = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name} ({self.unit_price}₺{'/kişi' if self.is_per_person else ''})"
+
+
+class WeddingOrganizationRequest(models.Model):
     date = models.DateField()
-    salon_fee = models.BooleanField(default=False)
-    musician = models.BooleanField(default=False)
-    photographer = models.BooleanField(default=False)
-    qr_sharing = models.BooleanField(default=False)
-    kina_concept = models.BooleanField(default=False)
-    wedding_concept = models.BooleanField(default=False)
-
-    snack_options = models.CharField(max_length=255, blank=True)
-    meal_options = models.CharField(max_length=255, blank=True)
-
     guest_count = models.PositiveIntegerField(default=0)
-
-    car_decoration = models.BooleanField(default=False)
-    vip_car_service = models.BooleanField(default=False)
-
+    selected_services = models.JSONField()
     detail = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    # İletişim bilgileri vs. ekleyebilirsin
 
     def __str__(self):
-        return f"{self.name} - {self.date}"
-
-
-    # reservations/models.py
-
-class OrganizationServicePricing(models.Model):
-    hizmet_adi = models.CharField(max_length=100)
-    birim_fiyati = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.hizmet_adi} - {self.birim_fiyati}₺"
-
+        return f"{self.date} - {self.guest_count} kişi"
     
 
     

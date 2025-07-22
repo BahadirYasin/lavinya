@@ -56,19 +56,15 @@ class CafeSectionAdmin(admin.ModelAdmin):
 
 admin.site.register(CafeSection, CafeSectionAdmin)
 
-# reservations/admin.py
 from django.contrib import admin
-from .models import WeddingOrganization
+from .models import OrganizationService, WeddingOrganizationRequest
 
-@admin.register(WeddingOrganization)
-class WeddingOrganizationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date', 'phone', 'salon_fee', 'musician', 'photographer')
-    list_filter = ('date', 'salon_fee', 'musician', 'vip_car_service')
-    search_fields = ('name', 'email', 'phone')
+@admin.register(OrganizationService)
+class OrganizationServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'unit_price', 'is_per_person')
 
-from .models import OrganizationServicePricing
+@admin.register(WeddingOrganizationRequest)
+class WeddingOrganizationRequestAdmin(admin.ModelAdmin):
+    list_display = ('date', 'guest_count', 'created_at')
 
-@admin.register(OrganizationServicePricing)
-class OrganizationServicePricingAdmin(admin.ModelAdmin):
-    list_display = ('hizmet_adi', 'birim_fiyati')
 

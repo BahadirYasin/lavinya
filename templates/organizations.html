@@ -80,145 +80,78 @@
   });
 </script>
 
-<!-- templates/organizations.html -->
-<div class="organization-container">
-  <h2 class="title">Lavinya Düğün Organizasyon Formu</h2>
-  <form method="POST">
+<div class="organization-flex">
+  <form class="organization-form" method="POST" id="org-form">
     {% csrf_token %}
-    <label>Tarih:
-      <input type="date" name="date" required>
-    </label>
-    <label>Saat:
-      <input type="time" name="time" required>
-    </label>
-    <label>Salon Ücreti:
-      <input type="number" name="salon_ucreti" step="0.01" min="0" required>
-    </label>
-    <label>
-      <input type="checkbox" name="muzisyen"> Müzisyen / Şantör
-    </label>
-    <label>
-      <input type="checkbox" name="fotografci"> Fotoğrafçı
-    </label>
-    <label>
-      <input type="checkbox" name="qr_photo_sharing"> QR Kod Fotoğraf Paylaşımı (Opsiyonel)
-    </label>
-    <label>
-      <input type="checkbox" name="kina_konsept"> Kına Konsepti
-    </label>
-    <label>
-      <input type="checkbox" name="dugun_konsept"> Düğün Konsepti
-    </label>
-    <fieldset>
-      <legend>İkram Seçenekleri (kişi başı)</legend>
-      <label>Yaş Pasta: <input type="number" name="ikram_yas_pasta" min="0" value="0"></label>
-      <label>Kuru Pasta: <input type="number" name="ikram_kuru_pasta" min="0" value="0"></label>
-      <label>Çerez: <input type="number" name="ikram_cerez" min="0" value="0"></label>
-      <label>Meşrubat: <input type="number" name="ikram_mesrubat" min="0" value="0"></label>
-      <label>Çay: <input type="number" name="ikram_cay" min="0" value="0"></label>
-    </fieldset>
-    <fieldset>
-      <legend>Yemek Seçenekleri</legend>
-      <label>
-        <input type="checkbox" name="yemek_var" id="yemek_var" onchange="document.getElementById('yemek_detay').style.display = this.checked ? 'block' : 'none';">
-        Yemek İstiyorum
-      </label>
-      <div id="yemek_detay" style="display:none;">
-        <label>Kişi Başı: <input type="number" name="yemek_kisi_sayisi" min="0"></label>
-        <label>Yemek Açıklama: <textarea name="yemek_aciklama"></textarea></label>
-      </div>
-    </fieldset>
-    <label>
-      <input type="checkbox" name="araba_susleme"> Araba Süsleme
-    </label>
-    <label>
-      <input type="checkbox" name="vip_arac"> Gün Boyu Şoförlü VIP Araç Hizmeti
-    </label>
-    <label>Ek Notlar:
-      <textarea name="detail"></textarea>
-    </label>
+    <h2>Lavinya Düğün Organizasyon Formu</h2>
+    <label>Tarih: <input type="date" name="date" required></label>
+    <label>Kişi Sayısı: <input type="number" name="guest_count" min="1" required></label>
+    <hr>
+    {% for s in services %}
+      {% if s.is_per_person %}
+        <label>
+          {{ s.name }} (kişi başı {{ s.unit_price }}₺):
+          <input type="number" name="{{ s.key }}" min="0" value="0">
+        </label>
+      {% else %}
+        <label>
+          <input type="checkbox" name="{{ s.key }}"> {{ s.name }} ({{ s.unit_price }}₺)
+        </label>
+      {% endif %}
+    {% endfor %}
+    <label>Ek Notlar: <textarea name="detail"></textarea></label>
     <button type="submit">Gönder</button>
   </form>
-</div>
-
-<div class="organization-wrapper">
-  <div class="organization-form">
-    <h2 class="title">Lavinya Düğün Organizasyon Formu</h2>
-    <form method="POST">
-      {% csrf_token %}
-      <!-- senin mevcut form elemanların buraya -->
-      <button type="submit">Gönder</button>
-    </form>
-  </div>
-
-  <div class="organization-summary">
+  <div class="organization-summary" id="org-summary">
     <h3>Fiyat Özeti</h3>
-    <ul id="fiyat-detaylari"></ul>
-    <p class="total-price">Toplam: <strong id="toplam-tutar">0</strong> ₺</p>
+    <ul id="summary-list"></ul>
+    <div class="total">
+      <span>Genel Toplam:</span>
+      <span id="summary-total">₺0</span>
+    </div>
   </div>
 </div>
 
 <script>
-  const fiyatlar = JSON.parse('{{ fiyatlar_json|escapejs }}');
-  const detayListesi = document.getElementById("fiyat-detaylari");
-  const toplamTutarElem = document.getElementById("toplam-tutar");
-
-  const updateFiyat = () => {
-    let toplam = 0;
-    detayListesi.innerHTML = '';
-
-    const hizmet = (name, label, adet = 1) => {
-      const el = document.querySelector(`[name="${name}"]`);
-      let secili = false;
-      let miktar = 1;
-
-      if (el?.type === "checkbox") {
-        secili = el.checked;
-      } else if (el?.type === "number") {
-        miktar = parseInt(el.value) || 0;
-        secili = miktar > 0;
+const services = JSON.parse('{{ services_json|escapejs }}');
+function updateSummary() {
+  let total = 0;
+  let items = [];
+  const guestCount = parseInt(document.querySelector('[name="guest_count"]').value) || 0;
+  services.forEach(s => {
+    if (s.is_per_person) {
+      let val = parseInt(document.querySelector(`[name="${s.key}"]`).value) || 0;
+      if (val > 0) {
+        let price = val * s.unit_price;
+        items.push({name: `${s.name} (${val} kişi)`, price: price});
+        total += price;
       }
-
-      const fiyat = fiyatlar[label] || 0;
-      if (secili) {
-        const tutar = fiyat * miktar;
-        toplam += tutar;
-        detayListesi.innerHTML += `<li><span>${label}</span><span>${tutar.toFixed(2)} ₺</span></li>`;
+    } else {
+      let el = document.querySelector(`[name="${s.key}"]`);
+      if (el && el.checked) {
+        items.push({name: s.name, price: s.unit_price});
+        total += s.unit_price;
       }
-    };
-
-    // Listeye eklenmesi gereken hizmetler
-    hizmet("ikram_yas_pasta", "Yaş Pasta", parseInt(document.querySelector(`[name="ikram_yas_pasta"]`)?.value || 0));
-    hizmet("vip_arac", "VIP Araç");
-    hizmet("muzisyen", "Müzisyen");
-    hizmet("fotografci", "Fotoğrafçı");
-    hizmet("kina_konsept", "Kına Konsepti");
-    hizmet("dugun_konsept", "Düğün Konsepti");
-    hizmet("araba_susleme", "Araba Süsleme");
-
-    toplamTutarElem.textContent = toplam.toFixed(2);
-  };
-
-  document.addEventListener('input', updateFiyat);
-  document.addEventListener('change', updateFiyat);
-</script>
-
-
-
-<script>
-  // Yemek seçeneği aç/kapa
-  document.addEventListener('DOMContentLoaded', function() {
-    var yemekVar = document.getElementById('yemek_var');
-    var yemekDetay = document.getElementById('yemek_detay');
-    if (yemekVar) {
-      yemekVar.addEventListener('change', function() {
-        yemekDetay.style.display = this.checked ? 'block' : 'none';
-      });
     }
   });
+  let list = document.getElementById('summary-list');
+  let totalEl = document.getElementById('summary-total');
+  list.innerHTML = '';
+  items.forEach(item => {
+    let li = document.createElement('li');
+    li.innerHTML = `<span>${item.name}</span><span>₺${item.price.toLocaleString('tr-TR')}</span>`;
+    list.appendChild(li);
+  });
+  totalEl.textContent = `₺${total.toLocaleString('tr-TR')}`;
+}
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.organization-form input').forEach(el => {
+    el.addEventListener('input', updateSummary);
+    el.addEventListener('change', updateSummary);
+  });
+  updateSummary();
+});
 </script>
-
-
 
 
 <!-- ===================== ORGANİZASYONLAR ===================== -->
