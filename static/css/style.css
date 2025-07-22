@@ -1812,6 +1812,15 @@ header.shrink nav a {
 }
 
 
+.order-left label {
+  color: #8a1538 !important;
+  font-weight: 600;
+}
+.order-left .price {
+  color: #8a1538;
+  font-weight: 600;
+}
+
 
 
 
