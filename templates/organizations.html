@@ -167,66 +167,7 @@
   </div>
 </section>
 
-<script>
-  // Formları gizle / göster
-  document.querySelectorAll('.org-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const type = card.getAttribute('data-type');
 
-      // Tüm formları gizle
-      document.querySelectorAll('.orderform').forEach(f => {
-        f.style.display = 'none';
-      });
-
-      // İlgili formu göster
-      const activeForm = document.getElementById(type + '-form');
-      if (activeForm) {
-        activeForm.style.display = 'block';
-        activeForm.scrollIntoView({ behavior: 'smooth' });
-        attachOrderFormEvents(activeForm);
-      }
-    });
-  });
-
-  // Fiyat güncelleme fonksiyonu
-  function attachOrderFormEvents(form) {
-    if (!form) return;
-
-    const formElement = form.querySelector('form');
-    const guestInput = form.querySelector('input[type="number"]');
-    const summaryList = form.querySelector('ul');
-    const totalPriceElem = form.querySelector('strong span');
-
-    function updateSummary() {
-      let total = 0;
-      let summary = [];
-
-      formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-        if (cb.checked) {
-          const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
-          const perPerson = cb.closest('fieldset') ? true : false;
-          const guestCount = parseInt(guestInput.value) || 1;
-          const price = perPerson ? unitPrice * guestCount : unitPrice;
-
-          total += price;
-          summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
-        }
-      });
-
-      summaryList.innerHTML = summary.join('');
-      totalPriceElem.textContent = total.toLocaleString('tr-TR');
-    }
-
-    // Eventleri kaldırıp tekrar eklemek için önce clone yapıyoruz (temiz event)
-    const newForm = formElement.cloneNode(true);
-    formElement.parentNode.replaceChild(newForm, formElement);
-
-    newForm.addEventListener('input', updateSummary);
-    guestInput.addEventListener('input', updateSummary);
-
-    updateSummary();
-  }
-</script>
 
 
 
@@ -382,38 +323,67 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 </script>
 
+
+
 <script>
-  const services = JSON.parse(document.getElementById('services-json').textContent);
+  // Formları gizle / göster
+  document.querySelectorAll('.org-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const type = card.getAttribute('data-type');
 
-  function populateServices(formId, orgType) {
-    const form = document.querySelector(`#${formId} .services-container`);
-    form.innerHTML = ""; // Temizle
+      // Tüm formları gizle
+      document.querySelectorAll('.orderform').forEach(f => {
+        f.style.display = 'none';
+      });
 
-    const filtered = services.filter(s => s.organization_type === orgType);
-    filtered.forEach(service => {
-      const label = document.createElement("label");
-      label.className = "service-option";
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.name = "services";
-      checkbox.value = service.name;
-      checkbox.dataset.price = service.price;
-      checkbox.dataset.perPerson = service.per_person;
-
-      const priceInfo = service.per_person ? ` (${service.price}₺/kişi)` : ` (${service.price}₺)`;
-      label.appendChild(checkbox);
-      label.appendChild(document.createTextNode(" " + service.name + priceInfo));
-
-      form.appendChild(label);
+      // İlgili formu göster
+      const activeForm = document.getElementById(type + '-form');
+      if (activeForm) {
+        activeForm.style.display = 'block';
+        activeForm.scrollIntoView({ behavior: 'smooth' });
+        attachOrderFormEvents(activeForm);
+      }
     });
-  }
-
-  // Örnek: Düğün card’ına tıklanınca çağrılacak
-  document.getElementById("dugun-card").addEventListener("click", () => {
-    populateServices("dugun-form", "dugun");
-    document.getElementById("dugun-form").scrollIntoView({ behavior: "smooth" });
   });
+
+  // Fiyat güncelleme fonksiyonu
+  function attachOrderFormEvents(form) {
+    if (!form) return;
+
+    const formElement = form.querySelector('form');
+    const guestInput = form.querySelector('input[type="number"]');
+    const summaryList = form.querySelector('ul');
+    const totalPriceElem = form.querySelector('strong span');
+
+    function updateSummary() {
+      let total = 0;
+      let summary = [];
+
+      formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (cb.checked) {
+          const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
+          const perPerson = cb.closest('fieldset') ? true : false;
+          const guestCount = parseInt(guestInput.value) || 1;
+          const price = perPerson ? unitPrice * guestCount : unitPrice;
+
+          total += price;
+          summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
+        }
+      });
+
+      summaryList.innerHTML = summary.join('');
+      totalPriceElem.textContent = total.toLocaleString('tr-TR');
+    }
+
+    // Eventleri kaldırıp tekrar eklemek için önce clone yapıyoruz (temiz event)
+    const newForm = formElement.cloneNode(true);
+    formElement.parentNode.replaceChild(newForm, formElement);
+
+    newForm.addEventListener('input', updateSummary);
+    guestInput.addEventListener('input', updateSummary);
+
+    updateSummary();
+  }
 </script>
 
 
