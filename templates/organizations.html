@@ -1,4 +1,5 @@
 {% load static %}
+{% load json_script %}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -9,8 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  
 </head>
 <body>
 
@@ -23,9 +22,7 @@
     <div class="top-bar-right">
       <a href="#"><i class="fab fa-facebook-f"></i></a>
       <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="https://www.instagram.com/lavinyagardenrestaurant?igsh=MXhuZGpobzVlN2t6Nw==" target="_blank" rel="noopener noreferrer">
-  <i class="fab fa-instagram"></i>
-</a>
+      <a href="https://www.instagram.com/lavinyagardenrestaurant?igsh=MXhuZGpobzVlN2t6Nw==" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
       <a href="#"><i class="fab fa-youtube"></i></a>
     </div>
   </div>
@@ -37,25 +34,25 @@
     </a>
 
     <div class="mobile-title">
-        <span class="line1">Lavinya Garden Restaurant</span>
-        <span class="line2">& Wedding Area</span>
-      </div>
-</div>
+      <span class="line1">Lavinya Garden Restaurant</span>
+      <span class="line2">& Wedding Area</span>
+    </div>
+  </div>
   <nav id="nav-menu">
     <a href="{% url 'index' %}">Anasayfa</a>
     <a href="{% url 'index' %}#hakkimizda" class="nav-about">Hakkımızda</a>
     <a href="{% url 'menu' %}">Restaurant</a>
     <a href="{% url 'cafe' %}">Cafe</a>
-      <div class="nav-item organizations-dropdown">
-    <a href="{% url 'organizations' %}" class="organizations-dropdown-toggle">
-      Organizasyonlar <i class="fas fa-chevron-down"></i>
-    </a>
-    <div class="organizations-dropdown-menu">
-      <a href="#">Düğün & Nişan</a>
-      <a href="#">Kurumsal Etkinlikler</a>
-      <a href="#">Özel Yemek Davetleri</a>
+    <div class="nav-item organizations-dropdown">
+      <a href="{% url 'organizations' %}" class="organizations-dropdown-toggle">
+        Organizasyonlar <i class="fas fa-chevron-down"></i>
+      </a>
+      <div class="organizations-dropdown-menu">
+        <a href="#">Düğün & Nişan</a>
+        <a href="#">Kurumsal Etkinlikler</a>
+        <a href="#">Özel Yemek Davetleri</a>
+      </div>
     </div>
-  </div>
     <a href="{% url 'gallery' %}">Galeri</a>
     <a href="{% url 'reservation' %}">Rezervasyon</a>
     <a href="{% url 'contact' %}">Iletisim</a>
@@ -81,108 +78,41 @@
   });
 </script>
 
-
-<!-- ORGANİZASYON KARTLARI -->
-<section class="organizations-section" id="organizasyonlar">
-  <h2 class="org-heading">Seçiminizi yapın </h2>
-  <div class="org-cards">
-    <article id="dugun-card" class="org-card" data-type="dugun">
-      <div class="org-icon"></div>
-      <h3>Düğün</h3>
-      <p>Doğayla iç içe masalsı bir atmosferde, size özel tasarlanmış unutulmaz bir düğün</p>
-    </article>
-    <article id="nisan-card" class="org-card" data-type="nisan">
-      <div class="org-icon"></div>
-      <h3>Nişan</h3>
-      <p>Samimi dekorasyon ve özenli servisle nişan gününüzü kusursuz hale getiriyoruz.</p>
-    </article>
-  </div>
-</section>
-
-{% for org_type, org_label in org_choices %}
-<div style="display: flex; flex: 1 1 100%; max-width: 1200px; gap: 2rem;">
-  <div id="{{ org_type }}-form" class="orderform"
-       style="flex: 2; background: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1); display:none;">
-    <h2>{{ org_label }} Organizasyon Formu</h2>
-    <form id="{{ org_type }}-order-form">
-
-      {% if org_type == "dugun" %}
-      <label>
-        Tarih Seçiniz:
-        <input type="date" name="date" required />
-        <small>(Dolu tarihler kırmızı gözükecektir)</small>
-      </label>
-      {% endif %}
-
-      {% with person_group_started=False %}
-      {% for option in service_options %}
-        {% if option.organization_type == org_type %}
-          
-          {% if option.per_person and not person_group_started %}
-            {% ifchanged %}
-            <fieldset>
-              <legend>Kişi Başına Seçenekler</legend>
-              {% with person_group_started=True %}
-              {% endwith %}
-            {% endifchanged %}
-          {% elif not option.per_person and person_group_started %}
-            </fieldset>
-            {% with person_group_started=False %}
-            {% endwith %}
-          {% endif %}
-
-          <label>
-            <input type="checkbox"
-                   name="{{ option.slug }}"
-                   data-price="{{ option.price }}"
-                   data-person="{{ option.per_person|yesno:'1,0' }}" />
-            {{ option.name }} (₺{{ option.price|floatformat:"0" }}){% if option.per_person %} / kişi{% endif %}
-          </label>
-        {% endif %}
+<div class="organizations-container">
+  <div class="organizations-left-panel">
+    <h2>Organizasyon Seçiniz</h2>
+    <select id="organizations-type-select">
+      <option value="">-- Seçiniz --</option>
+      {% for org_code, org_label in org_choices %}
+        <option value="{{ org_code }}">{{ org_label }}</option>
       {% endfor %}
+    </select>
 
-      {% if person_group_started %}
-        </fieldset>
-      {% endif %}
-      {% endwith %}
-
-      <label>
-        Kişi Sayısı:
-        <input type="number" id="{{ org_type }}-guest-count" name="guest_count" value="100" min="1" />
-        <small>(kişi başı hizmetlerde bu sayı kullanılır)</small>
-      </label>
-    </form>
+    <div id="organizations-service-options"></div>
   </div>
 
-  <div id="{{ org_type }}-summary" class="order-summary"
-       style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
-    <h4>Toplam Fiyat Özeti</h4>
-    <ul id="{{ org_type }}-summary-list"></ul>
-    <strong>Toplam: ₺<span id="{{ org_type }}-total-price">0</span></strong>
+  <div class="organizations-right-panel">
+    <h2>Seçilenler</h2>
+    <ul id="organizations-selected-services-list"></ul>
+    <p><strong>Toplam Fiyat:</strong> <span id="organizations-total-price">₺0</span></p>
   </div>
 </div>
-{% endfor %}
-
-
 
 <footer class="modern-footer">
   <div class="footer-wrapper">
-    
-    <!-- İLETİŞİM -->
-<div class="footer-col">
-  <h4>İletişim</h4>
-  <p><i class="fas fa-map-marker-alt"></i> Yeşilköy, Simav / Kütahya</p>
-  <p>
-    <i class="fas fa-envelope"></i>
-    <a href="mailto:lavinyarezervasyon@gmail.com">lavinyarezervasyon@gmail.com</a>
-  </p>
-  <p>
-    <i class="fas fa-phone-alt"></i>
-    <a href="tel:+905550438243">+90 555 043 82 43</a>
-  </p>
-</div>
+    <div class="footer-col">
+      <h4>İletişim</h4>
+      <p><i class="fas fa-map-marker-alt"></i> Yeşilköy, Simav / Kütahya</p>
+      <p>
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:lavinyarezervasyon@gmail.com">lavinyarezervasyon@gmail.com</a>
+      </p>
+      <p>
+        <i class="fas fa-phone-alt"></i>
+        <a href="tel:+905550438243">+90 555 043 82 43</a>
+      </p>
+    </div>
 
-    <!-- MENÜ -->
     <div class="footer-col">
       <h4>Hızlı Erişim</h4>
       <ul>
@@ -197,7 +127,6 @@
       </ul>
     </div>
 
-    <!-- SOSYAL MEDYA -->
     <div class="footer-col">
       <h4>Sosyal Medya</h4>
       <div class="footer-social">
@@ -208,7 +137,6 @@
       </div>
     </div>
 
-    <!-- HARİTA -->
     <div class="footer-col">
       <h4>Konum</h4>
       <div class="map-frame">
@@ -220,14 +148,11 @@
     </div>
 
   </div>
-<div class="footer-bottom">
-  <span>© 2025 Lavinya Garden Restaurant | Tüm Hakları Saklıdır.</span>
-  <span class="designer-credit">Designed by Bahadır Yasin Çetinsoy</span>
-</div>
+  <div class="footer-bottom">
+    <span>© 2025 Lavinya Garden Restaurant | Tüm Hakları Saklıdır.</span>
+    <span class="designer-credit">Designed by Bahadır Yasin Çetinsoy</span>
+  </div>
 </footer>
-
-
-
 
 <a 
   href="https://web.whatsapp.com/send?phone=8503070043&text=Merhaba%20Lavinya%20Restaurant%21%0ARezervasyon%20yapmak%20istiyorum."
@@ -265,137 +190,176 @@
   #whatsapp-float:hover {
     background-color: #1ebe57;
   }
+
+  .organizations-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+  .organizations-left-panel {
+    flex: 1.7;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .organizations-left-panel h2 {
+    margin-bottom: 1rem;
+  }
+  #organizations-type-select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  #organizations-service-options fieldset {
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  #organizations-service-options legend {
+    font-weight: 600;
+    padding: 0 0.5rem;
+  }
+  #organizations-service-options label {
+    cursor: pointer;
+  }
+  .organizations-right-panel {
+    flex: 1;
+    background: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    height: fit-content;
+  }
+  .organizations-right-panel h2 {
+    margin-bottom: 1rem;
+  }
+  #organizations-selected-services-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+  #organizations-selected-services-list li {
+    margin-bottom: 0.5rem;
+  }
 </style>
 
-
-
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const orgCards = document.querySelectorAll('.org-card');
+  document.addEventListener('DOMContentLoaded', () => {
+    const allServices = JSON.parse(document.getElementById('service-options-data').textContent);
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+    const typeSelect = document.getElementById('organizations-type-select');
+    const optionsDiv = document.getElementById('organizations-service-options');
+    const summaryList = document.getElementById('organizations-selected-services-list');
+    const totalPriceSpan = document.getElementById('organizations-total-price');
+
+    let guestCount = 1;
+
+    // Kişi sayısı inputu kişi başı hizmetler için lazım
+    const guestCountInput = document.createElement('input');
+    guestCountInput.type = 'number';
+    guestCountInput.min = 1;
+    guestCountInput.value = 1;
+    guestCountInput.id = 'organizations-guest-count';
+    guestCountInput.style.margin = '10px 0';
+    guestCountInput.style.width = '80px';
+    guestCountInput.title = 'Kişi Sayısı (Kişi başı fiyatlı ürünler için)';
+
+    guestCountInput.addEventListener('input', () => {
+      const val = parseInt(guestCountInput.value);
+      guestCount = val > 0 ? val : 1;
+      updateSummary();
+    });
+
+    function renderOptions(orgType) {
+      optionsDiv.innerHTML = '';
+      if (!orgType) return;
+
+      // Filtrele
+      const filtered = allServices.filter(s => s.organization_type === orgType);
+
+      if (filtered.length === 0) {
+        optionsDiv.textContent = 'Bu organizasyon için seçenek bulunamadı.';
+        return;
       }
-    });
-  }, { threshold: 0.3 });
 
-  orgCards.forEach(card => observer.observe(card));
-});
-</script>
+      // Kategori bazlı gruplandırma:
+      const categories = [...new Set(filtered.map(s => s.category))];
 
+      categories.forEach(cat => {
+        const catServices = filtered.filter(s => s.category === cat);
 
-<script>
-  const hamburger = document.getElementById('hamburger-btn');
-  const navMenu = document.getElementById('nav-menu');
+        const fieldset = document.createElement('fieldset');
+        const legend = document.createElement('legend');
+        legend.textContent = catServices[0].category.charAt(0).toUpperCase() + catServices[0].category.slice(1).replace('_', ' ');
+        fieldset.appendChild(legend);
 
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('open');
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', !expanded);
-  });
+        catServices.forEach(service => {
+          const label = document.createElement('label');
+          label.style.display = 'block';
+          label.style.margin = '0.3rem 0';
 
-  hamburger.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      hamburger.click();
-    }
-  });
-</script>
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.value = service.slug;
+          checkbox.dataset.price = service.price;
+          checkbox.dataset.perPerson = service.per_person ? '1' : '0';
+          checkbox.name = 'services';
 
-<script>
-  const header = document.querySelector('header');
+          checkbox.addEventListener('change', updateSummary);
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header.classList.add('shrink');
-    } else {
-      header.classList.remove('shrink');
-    }
-  });
-</script>
+          label.appendChild(checkbox);
 
+          let text = `${service.name} (₺${service.price})`;
+          if (service.per_person) text += ' / kişi';
 
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    // Sayfa yüklendiğinde tüm form ve özetleri gizle
-    document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
-    document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
+          label.appendChild(document.createTextNode(text));
 
-    // Kartlar tıklandığında
-    document.querySelectorAll('.org-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const type = card.getAttribute('data-type');
+          fieldset.appendChild(label);
+        });
 
-        // Önce tüm form ve özetleri gizle
-        document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
-        document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
-
-        // İlgili formu göster
-        const activeForm = document.getElementById(type + '-form');
-        if (activeForm) {
-          activeForm.style.display = 'block';
-          activeForm.scrollIntoView({ behavior: 'smooth' });
-
-          // Formdaki inputlara event bağla (birden fazla bağlanmasın diye kontrol var)
-          if (!activeForm.dataset.eventsAttached) {
-            attachOrderFormEvents(activeForm);
-            activeForm.dataset.eventsAttached = 'true';
-          }
-        }
-
-        // İlgili summary'yi göster
-        const activeSummary = document.getElementById(type + '-summary');
-        if (activeSummary) {
-          activeSummary.style.display = 'block';
-        }
+        optionsDiv.appendChild(fieldset);
       });
-    });
-  });
 
-  function attachOrderFormEvents(form) {
-    if (!form) return;
-
-    const formElement = form.querySelector('form');
-    const guestInput = form.querySelector('input[type="number"]');
-    if (!formElement || !guestInput) return;
-
-    const type = form.id.split('-')[0];
-    const summaryList = document.querySelector(`#${type}-summary-list`);
-    const totalPriceElem = document.querySelector(`#${type}-total-price`);
+      // Eğer kişi başı seçenek varsa kişi sayısı inputunu göster
+      const hasPerPerson = filtered.some(s => s.per_person);
+      if (hasPerPerson) {
+        optionsDiv.appendChild(guestCountInput);
+      }
+    }
 
     function updateSummary() {
+      summaryList.innerHTML = '';
       let total = 0;
-      let summary = [];
 
-      formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-        if (cb.checked) {
-          const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
-          const isPerPerson = cb.getAttribute('data-person') === '1';
-          const guestCount = parseInt(guestInput.value) || 1;
-          const price = isPerPerson ? unitPrice * guestCount : unitPrice;
+      const checkedBoxes = optionsDiv.querySelectorAll('input[type=checkbox]:checked');
 
-          total += price;
-          summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
-        }
+      checkedBoxes.forEach(cb => {
+        const price = parseInt(cb.dataset.price) || 0;
+        const perPerson = cb.dataset.perPerson === '1';
+        const cost = perPerson ? price * guestCount : price;
+
+        total += cost;
+
+        const li = document.createElement('li');
+        li.textContent = `${cb.parentNode.textContent.trim()} : ₺${cost.toLocaleString('tr-TR')}`;
+        summaryList.appendChild(li);
       });
 
-      summaryList.innerHTML = summary.join('');
-      totalPriceElem.textContent = total.toLocaleString('tr-TR');
+      totalPriceSpan.textContent = `₺${total.toLocaleString('tr-TR')}`;
     }
 
-    // Formda input değişikliklerinde güncelle
-    formElement.addEventListener('input', updateSummary);
-    guestInput.addEventListener('input', updateSummary);
-
-    updateSummary();
-  }
+    typeSelect.addEventListener('change', () => {
+      renderOptions(typeSelect.value);
+      updateSummary();
+    });
+  });
 </script>
 
-
-
+{{ service_options|json_script:"service-options-data" }}
 
 </body>
 </html>

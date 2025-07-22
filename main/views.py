@@ -96,22 +96,19 @@ def cafe_view(request):
     return render(request, 'cafe.html', {'cafe_sections': cafe_sections})
 
 
-
 from django.shortcuts import render
-from .models import ServiceOption
+from .models import ServiceOption, OrganizationType
 
 def organizations_view(request):
+    org_types = OrganizationType.choices
     services = ServiceOption.objects.all()
 
     context = {
-        'salon_services': services.filter(organization_type='salon'),
-        'musician_services': services.filter(organization_type='musician'),
-        'photographer_services': services.filter(organization_type='photographer'),
-        'concept_services': services.filter(organization_type='concept'),
-        'catering_services': services.filter(organization_type='catering'),
-        'vip_car_services': services.filter(organization_type='vip_car'),
+        'org_choices': org_types,
+        'service_options': list(services.values(
+            'id', 'organization_type', 'category', 'name', 'slug', 'price', 'per_person'
+        )),
     }
-
     return render(request, 'organizations.html', context)
 
 

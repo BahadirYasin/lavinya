@@ -90,21 +90,32 @@ class CafeItem(models.Model):
     def __str__(self):
         return self.name
 
+from django.db import models
+from django.utils.text import slugify
+
+class OrganizationType(models.TextChoices):
+    DUGUN = 'dugun', 'Düğün'
+    NISAN = 'nisan', 'Nişan'
+    KINA = 'kina', 'Kına'
+
+class ServiceCategory(models.TextChoices):
+    MUSICIAN = 'musician', 'Müzisyen'
+    VIP_CAR = 'vip_car', 'Araç Süsleme'
+    FOOD = 'food', 'Yemek'
+    CAKE = 'cake', 'Pasta'
+
 class ServiceOption(models.Model):
-    ORGANIZATION_TYPES = [
-        ('salon', 'Salon'),
-        ('musician', 'Musician'),
-        ('photographer', 'Photographer'),
-        ('concept', 'Concept'),
-        ('catering', 'Catering'),
-        ('vip_car', 'VIP Car'),
-    ]
-    
-    organization_type = models.CharField(max_length=20, choices=ORGANIZATION_TYPES)
+    organization_type = models.CharField(max_length=20, choices=OrganizationType.choices)
+    category = models.CharField(max_length=20, choices=ServiceCategory.choices, default=ServiceCategory.MUSICIAN)
     name = models.CharField(max_length=100)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     price = models.PositiveIntegerField()
     per_person = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name} ({self.organization_type})"
