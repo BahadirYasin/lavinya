@@ -82,146 +82,152 @@
 </script>
 
 
-<!-- ===================== ORGANİZASYONLAR ===================== -->
+<!-- ORGANİZASYON KARTLARI -->
 <section class="organizations-section" id="organizasyonlar">
   <h2 class="org-heading">Organizasyonlarımız, seçiminize tıklayın fiyatları görün</h2>
   <div class="org-cards">
-    <article class="org-card" data-type="dugun"> <!-- Düğün -->
+    <article id="dugun-card" class="org-card" data-type="dugun">
       <div class="org-icon"></div>
       <h3>Düğün</h3>
       <p>Doğayla iç içe masalsı bir atmosferde, size özel tasarlanmış unutulmaz düğünler.</p>
     </article>
-    <article class="org-card" data-type="nisan"> <!-- Nişan -->
+    <article id="nisan-card" class="org-card" data-type="nisan">
       <div class="org-icon"></div>
       <h3>Nişan</h3>
       <p>Samimi dekorasyon ve özenli servisle nişan gününüzü kusursuz hale getiriyoruz.</p>
     </article>
-    <!-- Diğer kartlar aynı şekilde devam eder... -->
   </div>
 </section>
 
-<!-- Fiyat Seçenekleri ve Özet -->
-<div id="order-wrapper-area"></div>
-<!-- =========================================================== -->
+<!-- ORGANİZASYON FORM ALANLARI -->
+<section id="order-wrapper-area">
+  <div id="dugun-form" class="orderform">
+    <h2>Düğün Organizasyon Formu</h2>
+    <form id="dugun-order-form">
+      <label>
+        Tarih Seçiniz:
+        <input type="date" id="wedding-date" name="wedding_date" required />
+        <small>(Dolu tarihler devre dışı olacak - placeholder)</small>
+      </label>
+
+      <label><input type="checkbox" name="venue" data-price="10000" /> Salon Ücreti (₺10.000)</label>
+      <label><input type="checkbox" name="musician" data-price="3000" /> Müzisyen / Şantör (₺3.000)</label>
+      <label><input type="checkbox" name="photographer" data-price="2000" /> Fotoğrafçı (₺2.000)</label>
+      <label><input type="checkbox" name="qr_share" data-price="500" /> QR Kodla Fotoğraf Paylaşımı (₺500)</label>
+      <label><input type="checkbox" name="kina" data-price="2500" /> Kına Konsepti (₺2.500)</label>
+      <label><input type="checkbox" name="dugun_konsept" data-price="4000" /> Düğün Konsepti (₺4.000)</label>
+
+      <fieldset>
+        <legend>İkram Seçenekleri (kişi başı)</legend>
+        <label><input type="checkbox" name="ikram1" data-price="50" /> Yaş Pasta</label>
+        <label><input type="checkbox" name="ikram2" data-price="30" /> Kuru Pasta</label>
+        <label><input type="checkbox" name="ikram3" data-price="20" /> Çerez</label>
+        <label><input type="checkbox" name="ikram4" data-price="10" /> Meşrubat</label>
+        <label><input type="checkbox" name="ikram5" data-price="5" /> Çay</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Yemek Seçimi (kişi başı)</legend>
+        <label><input type="checkbox" name="yemek" data-price="200" /> Ana Yemek + Tatlı + İçecek</label>
+      </fieldset>
+
+      <label><input type="checkbox" name="araba_susleme" data-price="750" /> Araba Süsleme (₺750)</label>
+      <label><input type="checkbox" name="vip_arac" data-price="1500" /> Gün Boyu Şoförlü VIP Araç (₺1.500)</label>
+
+      <label>
+        Kişi Sayısı:
+        <input type="number" id="dugun-guest-count" name="guest_count" value="100" min="1" />
+        <small>(ikram/yemek kişi başı hesaplanır)</small>
+      </label>
+    </form>
+
+    <div class="order-summary">
+      <h4>Toplam Fiyat Özeti</h4>
+      <ul id="dugun-summary-list"></ul>
+      <strong>Toplam: ₺<span id="dugun-total-price">0</span></strong>
+    </div>
+  </div>
+
+  <div id="nisan-form" class="orderform">
+    <h2>Nişan Organizasyon Formu</h2>
+    <form id="nisan-order-form">
+      <label><input type="checkbox" name="musician" data-price="2000" /> Müzisyen (₺2.000)</label>
+      <label>
+        Kişi Sayısı:
+        <input type="number" id="nisan-guest-count" name="guest_count" value="50" min="1" />
+        <small>(₺100 / kişi)</small>
+      </label>
+    </form>
+
+    <div class="order-summary">
+      <h4>Toplam Fiyat Özeti</h4>
+      <ul id="nisan-summary-list"></ul>
+      <strong>Toplam: ₺<span id="nisan-total-price">0</span></strong>
+    </div>
+  </div>
+</section>
 
 <script>
-  const orderForms = {
-    dugun: `
-      <div class="order-wrapper orderform">
-        <form id="order-form" class="order-left">
-          <h3>Düğün Organizasyonu</h3>
-
-          <!-- Tarih -->
-          <label>
-            Tarih Seçiniz:
-            <input type="date" id="wedding-date" name="wedding_date" required>
-            <small>(Dolu tarihler devre dışı olacak - placeholder)</small>
-          </label><br>
-
-          <!-- Sabit Hizmetler -->
-          <label><input type="checkbox" name="venue" data-price="10000"> Salon Ücreti (₺10.000)</label><br>
-          <label><input type="checkbox" name="musician" data-price="3000"> Müzisyen / Şantör (₺3.000)</label><br>
-          <label><input type="checkbox" name="photographer" data-price="2000"> Fotoğrafçı (₺2.000)</label><br>
-          <label><input type="checkbox" name="qr_share" data-price="500"> QR Kodla Fotoğraf Paylaşımı (₺500)</label><br>
-          <label><input type="checkbox" name="kina" data-price="2500"> Kına Konsepti (₺2.500)</label><br>
-          <label><input type="checkbox" name="dugun_konsept" data-price="4000"> Düğün Konsepti (₺4.000)</label><br>
-
-          <!-- İkram -->
-          <fieldset>
-            <legend>İkram Seçenekleri (kişi başı)</legend>
-            <label><input type="checkbox" name="ikram1" data-price="50"> Yaş Pasta</label><br>
-            <label><input type="checkbox" name="ikram2" data-price="30"> Kuru Pasta</label><br>
-            <label><input type="checkbox" name="ikram3" data-price="20"> Çerez</label><br>
-            <label><input type="checkbox" name="ikram4" data-price="10"> Meşrubat</label><br>
-            <label><input type="checkbox" name="ikram5" data-price="5"> Çay</label><br>
-          </fieldset>
-
-          <!-- Yemek -->
-          <fieldset>
-            <legend>Yemek Seçimi (kişi başı)</legend>
-            <label><input type="checkbox" name="yemek" data-price="200"> Ana Yemek + Tatlı + İçecek</label><br>
-          </fieldset>
-
-          <!-- Ekstra -->
-          <label><input type="checkbox" name="araba_susleme" data-price="750"> Araba Süsleme (₺750)</label><br>
-          <label><input type="checkbox" name="vip_arac" data-price="1500"> Gün Boyu Şoförlü VIP Araç (₺1.500)</label><br>
-
-          <!-- Kişi Sayısı -->
-          <label>
-            Kişi Sayısı:
-            <input type="number" id="guest-count" name="guest_count" value="100" min="1" data-unit-price="0">
-            <small>(ikram/yemek kişi başı hesaplanır)</small>
-          </label>
-        </form>
-
-        <div class="order-summary">
-          <h4>Toplam Fiyat Özeti</h4>
-          <ul id="summary-list"></ul>
-          <strong>Toplam: ₺<span id="total-price">0</span></strong>
-        </div>
-      </div>
-    `,
-
-    nisan: `
-      <div class="order-wrapper orderform">
-        <form id="order-form" class="order-left">
-          <h3>Nişan Organizasyonu</h3>
-          <label><input type="checkbox" name="musician" data-price="2000"> Müzisyen (₺2.000)</label><br>
-          <label>
-            Kişi Sayısı:
-            <input type="number" id="guest-count" name="guest_count" value="50" min="1" data-unit-price="100">
-            <small>(₺100 / kişi)</small>
-          </label>
-        </form>
-        <div class="order-summary">
-          <h4>Toplam Fiyat Özeti</h4>
-          <ul id="summary-list"></ul>
-          <strong>Toplam: ₺<span id="total-price">0</span></strong>
-        </div>
-      </div>
-    `
-    // Diğer organizasyon türleri de benzer şekilde eklenebilir
-  };
-
-  // Kartlara tıklanınca formu göster
+  // Formları gizle / göster
   document.querySelectorAll('.org-card').forEach(card => {
-    card.addEventListener('click', function () {
-      const type = this.getAttribute('data-type');
-      document.getElementById('order-wrapper-area').innerHTML = orderForms[type] || '';
-      attachOrderFormEvents();
-      window.scrollTo({ top: document.getElementById('order-wrapper-area').offsetTop - 40, behavior: 'smooth' });
+    card.addEventListener('click', () => {
+      const type = card.getAttribute('data-type');
+
+      // Tüm formları gizle
+      document.querySelectorAll('.orderform').forEach(f => {
+        f.style.display = 'none';
+      });
+
+      // İlgili formu göster
+      const activeForm = document.getElementById(type + '-form');
+      if (activeForm) {
+        activeForm.style.display = 'block';
+        activeForm.scrollIntoView({ behavior: 'smooth' });
+        attachOrderFormEvents(activeForm);
+      }
     });
   });
 
-  // Fiyat Hesaplama Fonksiyonu
-  function attachOrderFormEvents() {
-    const form = document.getElementById('order-form');
+  // Fiyat güncelleme fonksiyonu
+  function attachOrderFormEvents(form) {
     if (!form) return;
+
+    const formElement = form.querySelector('form');
+    const guestInput = form.querySelector('input[type="number"]');
+    const summaryList = form.querySelector('ul');
+    const totalPriceElem = form.querySelector('strong span');
+
     function updateSummary() {
       let total = 0;
       let summary = [];
 
-      // Checkbox'lar
-      form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
         if (cb.checked) {
-          let unit = parseInt(cb.getAttribute('data-price')) || 0;
-          let perPerson = cb.closest('fieldset') ? true : false;
-          let guestCount = parseInt(document.getElementById('guest-count')?.value || 1);
-          let price = perPerson ? unit * guestCount : unit;
+          const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
+          const perPerson = cb.closest('fieldset') ? true : false;
+          const guestCount = parseInt(guestInput.value) || 1;
+          const price = perPerson ? unitPrice * guestCount : unitPrice;
+
           total += price;
           summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
         }
       });
 
-      // Özet güncelle
-      document.getElementById('summary-list').innerHTML = summary.join('');
-      document.getElementById('total-price').textContent = total.toLocaleString('tr-TR');
+      summaryList.innerHTML = summary.join('');
+      totalPriceElem.textContent = total.toLocaleString('tr-TR');
     }
 
-    form.addEventListener('input', updateSummary);
+    // Eventleri kaldırıp tekrar eklemek için önce clone yapıyoruz (temiz event)
+    const newForm = formElement.cloneNode(true);
+    formElement.parentNode.replaceChild(newForm, formElement);
+
+    newForm.addEventListener('input', updateSummary);
+    guestInput.addEventListener('input', updateSummary);
+
     updateSummary();
   }
 </script>
+
 
 
 <footer class="modern-footer">
