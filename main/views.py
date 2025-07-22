@@ -104,12 +104,12 @@ def organizations_view(request):
     services = ServiceOption.objects.all()
 
     context = {
-        'salon_services': services.filter(category='salon'),
-        'musician_services': services.filter(category='musician'),
-        'photographer_services': services.filter(category='photographer'),
-        'concept_services': services.filter(category='concept'),
-        'catering_services': services.filter(category='catering'),
-        'vip_car_services': services.filter(category='vip_car'),
+        'salon_services': services.filter(organization_type='salon'),
+        'musician_services': services.filter(organization_type='musician'),
+        'photographer_services': services.filter(organization_type='photographer'),
+        'concept_services': services.filter(organization_type='concept'),
+        'catering_services': services.filter(organization_type='catering'),
+        'vip_car_services': services.filter(organization_type='vip_car'),
     }
 
     return render(request, 'organizations.html', context)

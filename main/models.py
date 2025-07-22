@@ -91,12 +91,16 @@ class CafeItem(models.Model):
         return self.name
 
 class ServiceOption(models.Model):
-    ORGANIZATION_CHOICES = [
-        ('dugun', 'Düğün'),
-        ('nisan', 'Nişan'),
-        # ihtiyaca göre eklenebilir
+    ORGANIZATION_TYPES = [
+        ('salon', 'Salon'),
+        ('musician', 'Musician'),
+        ('photographer', 'Photographer'),
+        ('concept', 'Concept'),
+        ('catering', 'Catering'),
+        ('vip_car', 'VIP Car'),
     ]
-    organization_type = models.CharField(max_length=20, choices=ORGANIZATION_CHOICES)
+    
+    organization_type = models.CharField(max_length=20, choices=ORGANIZATION_TYPES)
     name = models.CharField(max_length=100)
     slug = models.SlugField()
     price = models.PositiveIntegerField()
