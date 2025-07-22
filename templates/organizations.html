@@ -353,14 +353,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Fiyat güncelleme fonksiyonu
-  function attachOrderFormEvents(form) {
+function attachOrderFormEvents(form) {
   if (!form) return;
 
   const formElement = form.querySelector('form');
   const guestInput = form.querySelector('input[type="number"]');
-  const summaryList = form.querySelector('ul');
-  const totalPriceElem = form.querySelector('strong span');
+
+  // Formun ID'sinden hangi organizasyon olduğunu anla (dugun, nisan)
+  const type = form.id.split('-')[0];
+
+  // Form dışındaki summary alanını hedefle
+  const summaryList = document.querySelector(`#${type}-summary-list`);
+  const totalPriceElem = document.querySelector(`#${type}-total-price`);
 
   function updateSummary() {
     let total = 0;
@@ -382,10 +386,11 @@ document.addEventListener('DOMContentLoaded', () => {
     totalPriceElem.textContent = total.toLocaleString('tr-TR');
   }
 
-  // ✅ Doğrudan event ekle
+  // Event binding
   formElement.addEventListener('input', updateSummary);
   updateSummary();
 }
+
 
 </script>
 
