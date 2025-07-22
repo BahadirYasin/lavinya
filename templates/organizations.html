@@ -80,108 +80,123 @@
   });
 </script>
 
-<div class="order-wrapper">
-  <!-- Sol: Seçenekler -->
-  <form id="order-form" class="order-left">
-    <h3>Düğün Organizasyonu</h3>
-
-    <label><input type="checkbox" name="musician" data-price="3000"> Müzisyen (₺3.000)</label><br>
-    <label><input type="checkbox" name="photographer" data-price="2000"> Fotoğrafçı (₺2.000)</label><br>
-    <label><input type="checkbox" name="vip_car" data-price="1500"> VIP Araç (₺1.500)</label><br>
-
-    <label>
-      Kişi Sayısı:
-      <input type="number" id="guest-count" name="guest_count" value="100" min="1" data-unit-price="150">
-      <small>(₺150 / kişi)</small>
-    </label>
-  </form>
-
-  <!-- Sağ: Özet -->
-  <div class="order-summary">
-    <h4>Toplam Fiyat Özeti</h4>
-    <ul id="summary-list"></ul>
-    <strong>Toplam: ₺<span id="total-price">0</span></strong>
-  </div>
-</div>
-
-<script>
-  const form = document.getElementById("order-form");
-  const summaryList = document.getElementById("summary-list");
-  const totalPriceEl = document.getElementById("total-price");
-
-  function updateSummary() {
-    let total = 0;
-    summaryList.innerHTML = "";
-
-    form.querySelectorAll("input[type='checkbox']").forEach(input => {
-      if (input.checked) {
-        const price = parseInt(input.dataset.price);
-        total += price;
-
-        const li = document.createElement("li");
-        li.textContent = `${input.parentElement.textContent.trim()}: ₺${price}`;
-        summaryList.appendChild(li);
-      }
-    });
-
-    const guestInput = document.getElementById("guest-count");
-    const guestCount = parseInt(guestInput.value) || 0;
-    const unitPrice = parseInt(guestInput.dataset.unitPrice);
-    const guestTotal = guestCount * unitPrice;
-    if (guestCount > 0) {
-      total += guestTotal;
-
-      const li = document.createElement("li");
-      li.textContent = `Kişi Sayısı (${guestCount} x ₺${unitPrice}): ₺${guestTotal}`;
-      summaryList.appendChild(li);
-    }
-
-    totalPriceEl.textContent = total;
-  }
-
-  form.addEventListener("change", updateSummary);
-  form.addEventListener("input", updateSummary);
-
-  updateSummary();
-</script>
-
-
-
-
 
 <!-- ===================== ORGANİZASYONLAR ===================== -->
+<!-- Organizasyon Kartları -->
 <section class="organizations-section" id="organizasyonlar">
-  <h2 class="org-heading">Organizasyonlarımız</h2>
-
+  <h2 class="org-heading">Organizasyonlarımız, seçiminize tıklayın fiyatları görün</h2>
   <div class="org-cards">
-    <!-- Düğün -->
-    <article class="org-card">
+    <article class="org-card" data-type="dugun">
       <div class="org-icon"></div>
       <h3>Düğün</h3>
       <p>Doğayla iç içe masalsı bir atmosferde, size özel tasarlanmış unutulmaz düğünler.</p>
     </article>
-    <!-- Nişan -->
-    <article class="org-card">
+    <article class="org-card" data-type="nisan">
       <div class="org-icon"></div>
       <h3>Nişan</h3>
       <p>Samimi dekorasyon ve özenli servisle nişan gününüzü kusursuz hale getiriyoruz.</p>
     </article>
-    <!-- Etkinlikler -->
-    <article class="org-card">
+    <article class="org-card" data-type="etkinlik">
       <div class="org-icon"></div>
       <h3>Etkinlikler</h3>
       <p>Konser, lansman veya şirket buluşmaları için profesyonel etkinlik çözümleri.</p>
     </article>
-    <!-- Özel Yemek -->
-    <article class="org-card">
+    <article class="org-card" data-type="ozel">
       <div class="org-icon"></div>
       <h3>Özel Yemek Davetleri</h3>
       <p>Özel menüler ve şef dokunuşlarıyla seçkin davet sofraları.</p>
     </article>
   </div>
 </section>
+
+<!-- Fiyat Seçenekleri ve Özet -->
+<div id="order-wrapper-area"></div>
 <!-- =========================================================== -->
 
+
+<script>
+  const orderForms = {
+    dugun: `
+      <div class="order-wrapper">
+        <form id="order-form" class="order-left">
+          <h3>Düğün Organizasyonu</h3>
+          <label><input type="checkbox" name="musician" data-price="3000"> Müzisyen (₺3.000)</label><br>
+          <label><input type="checkbox" name="photographer" data-price="2000"> Fotoğrafçı (₺2.000)</label><br>
+          <label><input type="checkbox" name="vip_car" data-price="1500"> VIP Araç (₺1.500)</label><br>
+          <label>
+            Kişi Sayısı:
+            <input type="number" id="guest-count" name="guest_count" value="100" min="1" data-unit-price="150">
+            <small>(₺150 / kişi)</small>
+          </label>
+        </form>
+        <div class="order-summary">
+          <h4>Toplam Fiyat Özeti</h4>
+          <ul id="summary-list"></ul>
+          <strong>Toplam: ₺<span id="total-price">0</span></strong>
+        </div>
+      </div>
+    `,
+    // Diğer organizasyon türleri için benzer formlar ekleyebilirsin:
+    nisan: `
+      <div class="order-wrapper">
+        <form id="order-form" class="order-left">
+          <h3>Nişan Organizasyonu</h3>
+          <label><input type="checkbox" name="musician" data-price="2000"> Müzisyen (₺2.000)</label><br>
+          <label>
+            Kişi Sayısı:
+            <input type="number" id="guest-count" name="guest_count" value="50" min="1" data-unit-price="100">
+            <small>(₺100 / kişi)</small>
+          </label>
+        </form>
+        <div class="order-summary">
+          <h4>Toplam Fiyat Özeti</h4>
+          <ul id="summary-list"></ul>
+          <strong>Toplam: ₺<span id="total-price">0</span></strong>
+        </div>
+      </div>
+    `,
+    // ... diğerleri ...
+  };
+  
+  document.querySelectorAll('.org-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const type = this.getAttribute('data-type');
+      document.getElementById('order-wrapper-area').innerHTML = orderForms[type] || '';
+      attachOrderFormEvents();
+      window.scrollTo({ top: document.getElementById('order-wrapper-area').offsetTop - 40, behavior: 'smooth' });
+    });
+  });
+  
+  function attachOrderFormEvents() {
+    const form = document.getElementById('order-form');
+    if (!form) return;
+    function updateSummary() {
+      let total = 0;
+      let summary = [];
+      form.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (cb.checked) {
+          const price = parseInt(cb.getAttribute('data-price')) || 0;
+          total += price;
+          summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
+        }
+      });
+      const guestInput = form.querySelector('#guest-count');
+      if (guestInput) {
+        const guestCount = parseInt(guestInput.value) || 0;
+        const unitPrice = parseInt(guestInput.getAttribute('data-unit-price')) || 0;
+        if (guestCount > 0) {
+          const guestTotal = guestCount * unitPrice;
+          total += guestTotal;
+          summary.push(`<li>Kişi Sayısı: ${guestCount} x ₺${unitPrice} = +₺${guestTotal.toLocaleString('tr-TR')}</li>`);
+        }
+      }
+      document.getElementById('summary-list').innerHTML = summary.join('');
+      document.getElementById('total-price').textContent = total.toLocaleString('tr-TR');
+    }
+    form.addEventListener('input', updateSummary);
+    updateSummary();
+  }
+  </script>
 
 
 <footer class="modern-footer">
