@@ -116,7 +116,7 @@ def success(request):
 from .models import OrganizationServicePricing
 import json
 
-def organization_request(request):
+def organization_request_pricing(request):
     form = WeddingOrganizationForm()
     fiyatlar = OrganizationServicePricing.objects.all()
     fiyat_dict = {f.hizmet_adi: float(f.birim_fiyati) for f in fiyatlar}
