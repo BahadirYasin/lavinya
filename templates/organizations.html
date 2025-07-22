@@ -99,7 +99,6 @@
   </div>
 </section>
 
-<!-- ORGANİZASYON FORM ALANLARI -->
 {% for org_type, org_label in org_choices %}
 <div style="display: flex; flex: 1 1 100%; max-width: 1200px; gap: 2rem;">
   <div id="{{ org_type }}-form" class="orderform"
@@ -115,16 +114,23 @@
       </label>
       {% endif %}
 
-      {% for option in service_options|dictsort:"per_person" %}
+      {% with person_group_started=False %}
+      {% for option in service_options %}
         {% if option.organization_type == org_type %}
-          {% ifchanged option.per_person %}
-            {% if option.per_person %}
+          
+          {% if option.per_person and not person_group_started %}
+            {% ifchanged %}
             <fieldset>
-              <legend>Ki̇şi̇ Başına Seçenekler</legend>
-            {% else %}
-            {% if not forloop.first %}</fieldset>{% endif %}
-            {% endif %}
-          {% endifchanged %}
+              <legend>Kişi Başına Seçenekler</legend>
+              {% with person_group_started=True %}
+              {% endwith %}
+            {% endifchanged %}
+          {% elif not option.per_person and person_group_started %}
+            </fieldset>
+            {% with person_group_started=False %}
+            {% endwith %}
+          {% endif %}
+
           <label>
             <input type="checkbox"
                    name="{{ option.slug }}"
@@ -134,7 +140,11 @@
           </label>
         {% endif %}
       {% endfor %}
-      {% if service_options|filter:organization_type=org_type|length > 0 %}</fieldset>{% endif %}
+
+      {% if person_group_started %}
+        </fieldset>
+      {% endif %}
+      {% endwith %}
 
       <label>
         Kişi Sayısı:
@@ -152,10 +162,6 @@
   </div>
 </div>
 {% endfor %}
-
-
-
-
 
 
 
