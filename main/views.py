@@ -88,8 +88,14 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-def organizations(request):
-      return render(request, 'organizations.html')
+# organization/views.py
+from django.shortcuts import render
+from .models import Service
+
+def organizations_view(request):
+    services = Service.objects.all()
+    return render(request, 'organizations.html', {'services': services})
+
 
 
 

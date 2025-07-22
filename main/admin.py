@@ -57,5 +57,16 @@ class CafeSectionAdmin(admin.ModelAdmin):
 admin.site.register(CafeSection, CafeSectionAdmin)
 
 
+# organization/admin.py
+from django.contrib import admin
+from .models import Service
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'organization_type', 'price', 'per_person')
+    list_filter = ('organization_type',)
+
+
+
 
 

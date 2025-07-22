@@ -90,6 +90,25 @@ class CafeItem(models.Model):
     def __str__(self):
         return self.name
 
+# organization/models.py
+from django.db import models
+
+class Service(models.Model):
+    TYPE_CHOICES = [
+        ('dugun', 'Düğün'),
+        ('nisan', 'Nişan'),
+        ('kına', 'Kına'),
+        ('dogumgunu', 'Doğum Günü'),
+    ]
+    organization_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    name = models.CharField(max_length=100)
+    price = models.PositiveIntegerField()
+    per_person = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name} ({self.organization_type})"
+
+
 
 
     

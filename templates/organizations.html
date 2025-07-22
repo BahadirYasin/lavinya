@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+  
 </head>
 <body>
 
@@ -374,6 +375,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 </script>
+
+<script>
+  const services = JSON.parse(document.getElementById('services-json').textContent);
+
+  function populateServices(formId, orgType) {
+    const form = document.querySelector(`#${formId} .services-container`);
+    form.innerHTML = ""; // Temizle
+
+    const filtered = services.filter(s => s.organization_type === orgType);
+    filtered.forEach(service => {
+      const label = document.createElement("label");
+      label.className = "service-option";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.name = "services";
+      checkbox.value = service.name;
+      checkbox.dataset.price = service.price;
+      checkbox.dataset.perPerson = service.per_person;
+
+      const priceInfo = service.per_person ? ` (${service.price}₺/kişi)` : ` (${service.price}₺)`;
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(" " + service.name + priceInfo));
+
+      form.appendChild(label);
+    });
+  }
+
+  // Örnek: Düğün card’ına tıklanınca çağrılacak
+  document.getElementById("dugun-card").addEventListener("click", () => {
+    populateServices("dugun-form", "dugun");
+    document.getElementById("dugun-form").scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+
 
 
 </body>
