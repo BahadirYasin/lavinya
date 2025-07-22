@@ -144,7 +144,7 @@
       </form>
     </div>
 
-    <div class="order-summary" style="flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    <div class="order-summary" style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
       <h4>Toplam Fiyat Özeti</h4>
       <ul id="dugun-summary-list"></ul>
       <strong>Toplam: ₺<span id="dugun-total-price">0</span></strong>
@@ -165,7 +165,7 @@
       </form>
     </div>
 
-    <div class="order-summary" style="flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    <div class="order-summary" style="display: none; flex: 1; background: #f8f8f8; padding: 1.5rem; border-radius: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
       <h4>Toplam Fiyat Özeti</h4>
       <ul id="nisan-summary-list"></ul>
       <strong>Toplam: ₺<span id="nisan-total-price">0</span></strong>
@@ -333,15 +333,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 <script>
-  // Formları gizle / göster
+  // Sayfa yüklendiğinde tüm formlar ve summary'ler gizlensin
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
+    document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
+  });
+
+  // Formları ve summary'leri gizle / göster
   document.querySelectorAll('.org-card').forEach(card => {
     card.addEventListener('click', () => {
       const type = card.getAttribute('data-type');
 
-      // Tüm formları gizle
-      document.querySelectorAll('.orderform').forEach(f => {
-        f.style.display = 'none';
-      });
+      // Tüm formları ve summary'leri gizle
+      document.querySelectorAll('.orderform').forEach(f => f.style.display = 'none');
+      document.querySelectorAll('.order-summary').forEach(s => s.style.display = 'none');
 
       // İlgili formu göster
       const activeForm = document.getElementById(type + '-form');
@@ -350,50 +355,53 @@ document.addEventListener('DOMContentLoaded', () => {
         activeForm.scrollIntoView({ behavior: 'smooth' });
         attachOrderFormEvents(activeForm);
       }
+
+      // İlgili summary'yi göster
+      const activeSummary = document.getElementById(type + '-summary');
+      if (activeSummary) {
+        activeSummary.style.display = 'block';
+      }
     });
   });
 
-function attachOrderFormEvents(form) {
-  if (!form) return;
+  function attachOrderFormEvents(form) {
+    if (!form) return;
 
-  const formElement = form.querySelector('form');
-  const guestInput = form.querySelector('input[type="number"]');
+    const formElement = form.querySelector('form');
+    const guestInput = form.querySelector('input[type="number"]');
 
-  // Formun ID'sinden hangi organizasyon olduğunu anla (dugun, nisan)
-  const type = form.id.split('-')[0];
+    // Formun ID'sinden hangi organizasyon olduğunu anla (dugun, nisan)
+    const type = form.id.split('-')[0];
 
-  // Form dışındaki summary alanını hedefle
-  const summaryList = document.querySelector(`#${type}-summary-list`);
-  const totalPriceElem = document.querySelector(`#${type}-total-price`);
+    // Form dışındaki summary alanını hedefle
+    const summaryList = document.querySelector(`#${type}-summary-list`);
+    const totalPriceElem = document.querySelector(`#${type}-total-price`);
 
-  function updateSummary() {
-    let total = 0;
-    let summary = [];
+    function updateSummary() {
+      let total = 0;
+      let summary = [];
 
-    formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      if (cb.checked) {
-        const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
-        const perPerson = cb.closest('fieldset') ? true : false;
-        const guestCount = parseInt(guestInput.value) || 1;
-        const price = perPerson ? unitPrice * guestCount : unitPrice;
+      formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (cb.checked) {
+          const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
+          const perPerson = cb.closest('fieldset') ? true : false;
+          const guestCount = parseInt(guestInput.value) || 1;
+          const price = perPerson ? unitPrice * guestCount : unitPrice;
 
-        total += price;
-        summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
-      }
-    });
+          total += price;
+          summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
+        }
+      });
 
-    summaryList.innerHTML = summary.join('');
-    totalPriceElem.textContent = total.toLocaleString('tr-TR');
+      summaryList.innerHTML = summary.join('');
+      totalPriceElem.textContent = total.toLocaleString('tr-TR');
+    }
+
+    // Değişiklik olduğunda özet güncellensin
+    formElement.addEventListener('input', updateSummary);
+    updateSummary();
   }
-
-  // Event binding
-  formElement.addEventListener('input', updateSummary);
-  updateSummary();
-}
-
-
 </script>
-
 
 
 </body>
