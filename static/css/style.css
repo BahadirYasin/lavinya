@@ -1896,6 +1896,14 @@ header.shrink nav a {
       }
     }
 
+    @media (max-width: 768px) {
+  #organizasyonlar,
+  #order-wrapper-area,
+  #order-wrapper-area * {
+    font-size: 0.85rem !important;
+  }
+}
+
 
 
 
