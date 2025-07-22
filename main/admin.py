@@ -56,15 +56,6 @@ class CafeSectionAdmin(admin.ModelAdmin):
 
 admin.site.register(CafeSection, CafeSectionAdmin)
 
-from django.contrib import admin
-from .models import OrganizationService, WeddingOrganizationRequest
 
-@admin.register(OrganizationService)
-class OrganizationServiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'unit_price', 'is_per_person')
-
-@admin.register(WeddingOrganizationRequest)
-class WeddingOrganizationRequestAdmin(admin.ModelAdmin):
-    list_display = ('date', 'guest_count', 'created_at')
 
 

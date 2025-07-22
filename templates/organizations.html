@@ -80,78 +80,77 @@
   });
 </script>
 
-<div class="organization-flex">
-  <form class="organization-form" method="POST" id="org-form">
-    {% csrf_token %}
-    <h2>Lavinya Düğün Organizasyon Formu</h2>
-    <label>Tarih: <input type="date" name="date" required></label>
-    <label>Kişi Sayısı: <input type="number" name="guest_count" min="1" required></label>
-    <hr>
-    {% for s in services %}
-      {% if s.is_per_person %}
-        <label>
-          {{ s.name }} (kişi başı {{ s.unit_price }}₺):
-          <input type="number" name="{{ s.key }}" min="0" value="0">
-        </label>
-      {% else %}
-        <label>
-          <input type="checkbox" name="{{ s.key }}"> {{ s.name }} ({{ s.unit_price }}₺)
-        </label>
-      {% endif %}
-    {% endfor %}
-    <label>Ek Notlar: <textarea name="detail"></textarea></label>
-    <button type="submit">Gönder</button>
+<div class="order-wrapper" style="display: flex; gap: 2rem; align-items: flex-start;">
+  <!-- Sol: Seçenekler -->
+  <form id="order-form" class="order-left" style="flex: 2; display: flex; flex-direction: column; gap: 1rem;">
+    <h3>Düğün Organizasyonu</h3>
+
+    <label><input type="checkbox" name="musician" data-price="3000"> Müzisyen (₺3.000)</label>
+    <label><input type="checkbox" name="photographer" data-price="2000"> Fotoğrafçı (₺2.000)</label>
+    <label><input type="checkbox" name="vip_car" data-price="1500"> VIP Araç (₺1.500)</label>
+
+    <label>
+      Kişi Sayısı:
+      <input type="number" id="guest-count" name="guest_count" value="100" min="1" data-unit-price="150" style="margin-left: 10px;">
+      <small>(₺150 / kişi)</small>
+    </label>
+
+    <!-- İsteğe bağlı ek seçenekler -->
   </form>
-  <div class="organization-summary" id="org-summary">
-    <h3>Fiyat Özeti</h3>
-    <ul id="summary-list"></ul>
-    <div class="total">
-      <span>Genel Toplam:</span>
-      <span id="summary-total">₺0</span>
-    </div>
+
+  <!-- Sağ: Özet -->
+  <div class="order-summary" style="flex: 1; padding: 1rem; background: #f6f6f6; border-radius: 8px;">
+    <h4>Toplam Fiyat Özeti</h4>
+    <ul id="summary-list" style="list-style: none; padding: 0; margin-bottom: 1rem;"></ul>
+    <strong style="font-size: 1.2rem;">Toplam: ₺<span id="total-price">0</span></strong>
   </div>
 </div>
 
 <script>
-const services = JSON.parse('{{ services_json|escapejs }}');
-function updateSummary() {
-  let total = 0;
-  let items = [];
-  const guestCount = parseInt(document.querySelector('[name="guest_count"]').value) || 0;
-  services.forEach(s => {
-    if (s.is_per_person) {
-      let val = parseInt(document.querySelector(`[name="${s.key}"]`).value) || 0;
-      if (val > 0) {
-        let price = val * s.unit_price;
-        items.push({name: `${s.name} (${val} kişi)`, price: price});
+  const form = document.getElementById("order-form");
+  const summaryList = document.getElementById("summary-list");
+  const totalPriceEl = document.getElementById("total-price");
+
+  function updateSummary() {
+    let total = 0;
+    summaryList.innerHTML = "";
+
+    // Checkboxlar
+    form.querySelectorAll("input[type='checkbox']").forEach(input => {
+      if (input.checked) {
+        const price = parseInt(input.dataset.price);
         total += price;
+
+        const li = document.createElement("li");
+        li.textContent = `${input.parentElement.textContent.trim()}: ₺${price}`;
+        summaryList.appendChild(li);
       }
-    } else {
-      let el = document.querySelector(`[name="${s.key}"]`);
-      if (el && el.checked) {
-        items.push({name: s.name, price: s.unit_price});
-        total += s.unit_price;
-      }
+    });
+
+    // Kişi sayısı
+    const guestInput = document.getElementById("guest-count");
+    const guestCount = parseInt(guestInput.value) || 0;
+    const unitPrice = parseInt(guestInput.dataset.unitPrice);
+    const guestTotal = guestCount * unitPrice;
+    if (guestCount > 0) {
+      total += guestTotal;
+
+      const li = document.createElement("li");
+      li.textContent = `Kişi Sayısı (${guestCount} x ₺${unitPrice}): ₺${guestTotal}`;
+      summaryList.appendChild(li);
     }
-  });
-  let list = document.getElementById('summary-list');
-  let totalEl = document.getElementById('summary-total');
-  list.innerHTML = '';
-  items.forEach(item => {
-    let li = document.createElement('li');
-    li.innerHTML = `<span>${item.name}</span><span>₺${item.price.toLocaleString('tr-TR')}</span>`;
-    list.appendChild(li);
-  });
-  totalEl.textContent = `₺${total.toLocaleString('tr-TR')}`;
-}
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.organization-form input').forEach(el => {
-    el.addEventListener('input', updateSummary);
-    el.addEventListener('change', updateSummary);
-  });
+
+    totalPriceEl.textContent = total;
+  }
+
+  form.addEventListener("change", updateSummary);
+  form.addEventListener("input", updateSummary);
+
+  // Sayfa yüklendiğinde bir kere çalıştır
   updateSummary();
-});
 </script>
+
+
 
 
 <!-- ===================== ORGANİZASYONLAR ===================== -->

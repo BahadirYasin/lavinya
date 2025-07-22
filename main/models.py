@@ -90,47 +90,7 @@ class CafeItem(models.Model):
     def __str__(self):
         return self.name
 
-from django.db import models
 
-class OrganizationService(models.Model):
-    SERVICE_CHOICES = [
-        ('salon', 'Salon Ücreti'),
-        ('muzisyen', 'Müzisyen / Şantör'),
-        ('fotografci', 'Fotoğrafçı'),
-        ('qr', 'QR Kod Fotoğraf Paylaşımı'),
-        ('kina', 'Kına Konsepti'),
-        ('dugun', 'Düğün Konsepti'),
-        ('araba', 'Araba Süsleme'),
-        ('vip_arac', 'VIP Araç Hizmeti'),
-        ('yemek_et', 'Yemek (Et)'),
-        ('yemek_tavuk', 'Yemek (Tavuk)'),
-        ('yemek_vegan', 'Yemek (Vegan)'),
-        ('ikram_yas_pasta', 'Yaş Pasta'),
-        ('ikram_kuru_pasta', 'Kuru Pasta'),
-        ('ikram_cerez', 'Çerez'),
-        ('ikram_mesrubat', 'Meşrubat'),
-        ('ikram_cay', 'Çay'),
-    ]
-    key = models.CharField(max_length=32, choices=SERVICE_CHOICES, unique=True)
-    name = models.CharField(max_length=100)
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
-    is_per_person = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"{self.name} ({self.unit_price}₺{'/kişi' if self.is_per_person else ''})"
-
-
-class WeddingOrganizationRequest(models.Model):
-    date = models.DateField()
-    guest_count = models.PositiveIntegerField(default=0)
-    selected_services = models.JSONField()
-    detail = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    # İletişim bilgileri vs. ekleyebilirsin
-
-    def __str__(self):
-        return f"{self.date} - {self.guest_count} kişi"
-    
 
     
 

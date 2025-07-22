@@ -9,7 +9,7 @@ from django.contrib import messages
 from .models import CafeSection
 import json
 from django.shortcuts import render, redirect
-from .models import OrganizationService, WeddingOrganizationRequest
+
 
 def index(request):
     hero_section = HeroSection.objects.all()
@@ -100,44 +100,7 @@ def cafe_view(request):
 
 
 
-def organization_request(request):
-    services = OrganizationService.objects.all()
-    services_json = json.dumps([
-        {
-            'key': s.key,
-            'name': s.name,
-            'unit_price': float(s.unit_price),
-            'is_per_person': s.is_per_person
-        } for s in services
-    ])
-    if request.method == 'POST':
-        # Formdan gelen verileri işle
-        date = request.POST.get('date')
-        guest_count = int(request.POST.get('guest_count') or 0)
-        selected_services = {}
-        for s in services:
-            if s.is_per_person:
-                val = int(request.POST.get(s.key) or 0)
-                if val > 0:
-                    selected_services[s.key] = val
-            else:
-                if request.POST.get(s.key):
-                    selected_services[s.key] = True
-        detail = request.POST.get('detail', '')
-        WeddingOrganizationRequest.objects.create(
-            date=date,
-            guest_count=guest_count,
-            selected_services=selected_services,
-            detail=detail
-        )
-        return redirect('organization_success')
-    return render(request, 'organizations.html', {
-        'services': services,
-        'services_json': services_json
-    })
 
-def organization_success(request):
-    return render(request, 'organization_success.html')
 
 
 
