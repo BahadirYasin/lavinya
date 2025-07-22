@@ -141,6 +141,70 @@
   </form>
 </div>
 
+<div class="organization-wrapper">
+  <div class="organization-form">
+    <h2 class="title">Lavinya Düğün Organizasyon Formu</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <!-- senin mevcut form elemanların buraya -->
+      <button type="submit">Gönder</button>
+    </form>
+  </div>
+
+  <div class="organization-summary">
+    <h3>Fiyat Özeti</h3>
+    <ul id="fiyat-detaylari"></ul>
+    <p class="total-price">Toplam: <strong id="toplam-tutar">0</strong> ₺</p>
+  </div>
+</div>
+
+<script>
+  const fiyatlar = {{ fiyatlar_json|safe }};
+  const detayListesi = document.getElementById("fiyat-detaylari");
+  const toplamTutarElem = document.getElementById("toplam-tutar");
+
+  const updateFiyat = () => {
+    let toplam = 0;
+    detayListesi.innerHTML = '';
+
+    const hizmet = (name, label, adet = 1) => {
+      const el = document.querySelector(`[name="${name}"]`);
+      let secili = false;
+      let miktar = 1;
+
+      if (el?.type === "checkbox") {
+        secili = el.checked;
+      } else if (el?.type === "number") {
+        miktar = parseInt(el.value) || 0;
+        secili = miktar > 0;
+      }
+
+      const fiyat = fiyatlar[label] || 0;
+      if (secili) {
+        const tutar = fiyat * miktar;
+        toplam += tutar;
+        detayListesi.innerHTML += `<li><span>${label}</span><span>${tutar.toFixed(2)} ₺</span></li>`;
+      }
+    };
+
+    // Listeye eklenmesi gereken hizmetler
+    hizmet("ikram_yas_pasta", "Yaş Pasta", parseInt(document.querySelector(`[name="ikram_yas_pasta"]`)?.value || 0));
+    hizmet("vip_arac", "VIP Araç");
+    hizmet("muzisyen", "Müzisyen");
+    hizmet("fotografci", "Fotoğrafçı");
+    hizmet("kina_konsept", "Kına Konsepti");
+    hizmet("dugun_konsept", "Düğün Konsepti");
+    hizmet("araba_susleme", "Araba Süsleme");
+
+    toplamTutarElem.textContent = toplam.toFixed(2);
+  };
+
+  document.addEventListener('input', updateFiyat);
+  document.addEventListener('change', updateFiyat);
+</script>
+
+
+
 <script>
   // Yemek seçeneği aç/kapa
   document.addEventListener('DOMContentLoaded', function() {

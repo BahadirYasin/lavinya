@@ -1844,6 +1844,60 @@ header.shrink nav a {
 }
 
 
+.organization-wrapper {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.organization-form {
+  flex: 1;
+  min-width: 500px;
+}
+
+.organization-summary {
+  flex: 0.7;
+  background: #fff9fb;
+  border: 2px solid #f3e3ea;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 360px;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 0 12px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 100px;
+}
+
+.organization-summary h3 {
+  margin-top: 0;
+  color: #8a1538;
+  font-size: 1.4rem;
+}
+
+.organization-summary ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.organization-summary ul li {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.organization-summary .total-price {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: right;
+  color: #8a1538;
+}
+
+
+
 
 
 

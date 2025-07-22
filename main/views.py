@@ -113,3 +113,17 @@ def organization_request(request):
 def success(request):
     return render(request, 'success.html')
 
+from .models import OrganizationServicePricing
+import json
+
+def organization_request(request):
+    form = WeddingOrganizationForm()
+    fiyatlar = OrganizationServicePricing.objects.all()
+    fiyat_dict = {f.hizmet_adi: float(f.birim_fiyati) for f in fiyatlar}
+
+    return render(request, 'organizations.html', {
+        'form': form,
+        'fiyatlar_json': json.dumps(fiyat_dict)
+    })
+
+

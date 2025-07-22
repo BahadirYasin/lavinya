@@ -65,3 +65,10 @@ class WeddingOrganizationAdmin(admin.ModelAdmin):
     list_display = ('name', 'date', 'phone', 'salon_fee', 'musician', 'photographer')
     list_filter = ('date', 'salon_fee', 'musician', 'vip_car_service')
     search_fields = ('name', 'email', 'phone')
+
+from .models import OrganizationServicePricing
+
+@admin.register(OrganizationServicePricing)
+class OrganizationServicePricingAdmin(admin.ModelAdmin):
+    list_display = ('hizmet_adi', 'birim_fiyati')
+

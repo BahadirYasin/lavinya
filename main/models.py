@@ -118,6 +118,17 @@ class WeddingOrganization(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.date}"
+
+
+    # reservations/models.py
+
+class OrganizationServicePricing(models.Model):
+    hizmet_adi = models.CharField(max_length=100)
+    birim_fiyati = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.hizmet_adi} - {self.birim_fiyati}₺"
+
     
 
     
