@@ -9,6 +9,8 @@ from django.contrib import messages
 from .models import CafeSection
 import json
 from django.shortcuts import render, redirect
+from django.shortcuts import render
+from .models import ServiceOption
 
 
 def index(request):
@@ -88,20 +90,22 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-# organization/views.py
-from django.shortcuts import render
-from .models import Service
-
-def organizations_view(request):
-    services = Service.objects.all()
-    return render(request, 'organizations.html', {'services': services})
-
-
-
 
 def cafe_view(request):
     cafe_sections = CafeSection.objects.prefetch_related('items').all()
     return render(request, 'cafe.html', {'cafe_sections': cafe_sections})
+
+
+
+
+from django.shortcuts import render
+from .models import ServiceOption
+
+def organizations_view(request):
+    services = ServiceOption.objects.all()
+    return render(request, 'organizations.html', {'services': services})
+
+
 
 
 

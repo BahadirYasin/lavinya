@@ -57,14 +57,17 @@ class CafeSectionAdmin(admin.ModelAdmin):
 admin.site.register(CafeSection, CafeSectionAdmin)
 
 
-# organization/admin.py
+# organizasyon/admin.py
 from django.contrib import admin
-from .models import Service
+from .models import ServiceOption
 
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'organization_type', 'price', 'per_person')
-    list_filter = ('organization_type',)
+@admin.register(ServiceOption)
+class ServiceOptionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'price', )  # Ekledik
+    list_editable = ('price', )  # İstersen direkt listeden düzenlenebilir yap
+    prepopulated_fields = {'slug': ('name',)}
+
+
 
 
 
