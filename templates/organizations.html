@@ -348,42 +348,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fiyat güncelleme fonksiyonu
   function attachOrderFormEvents(form) {
-    if (!form) return;
+  if (!form) return;
 
-    const formElement = form.querySelector('form');
-    const guestInput = form.querySelector('input[type="number"]');
-    const summaryList = form.querySelector('ul');
-    const totalPriceElem = form.querySelector('strong span');
+  const formElement = form.querySelector('form');
+  const guestInput = form.querySelector('input[type="number"]');
+  const summaryList = form.querySelector('ul');
+  const totalPriceElem = form.querySelector('strong span');
 
-    function updateSummary() {
-      let total = 0;
-      let summary = [];
+  function updateSummary() {
+    let total = 0;
+    let summary = [];
 
-      formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-        if (cb.checked) {
-          const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
-          const perPerson = cb.closest('fieldset') ? true : false;
-          const guestCount = parseInt(guestInput.value) || 1;
-          const price = perPerson ? unitPrice * guestCount : unitPrice;
+    formElement.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      if (cb.checked) {
+        const unitPrice = parseInt(cb.getAttribute('data-price')) || 0;
+        const perPerson = cb.closest('fieldset') ? true : false;
+        const guestCount = parseInt(guestInput.value) || 1;
+        const price = perPerson ? unitPrice * guestCount : unitPrice;
 
-          total += price;
-          summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
-        }
-      });
+        total += price;
+        summary.push(`<li>${cb.parentNode.textContent.trim()} +₺${price.toLocaleString('tr-TR')}</li>`);
+      }
+    });
 
-      summaryList.innerHTML = summary.join('');
-      totalPriceElem.textContent = total.toLocaleString('tr-TR');
-    }
-
-    // Eventleri kaldırıp tekrar eklemek için önce clone yapıyoruz (temiz event)
-    const newForm = formElement.cloneNode(true);
-    formElement.parentNode.replaceChild(newForm, formElement);
-
-    newForm.addEventListener('input', updateSummary);
-    guestInput.addEventListener('input', updateSummary);
-
-    updateSummary();
+    summaryList.innerHTML = summary.join('');
+    totalPriceElem.textContent = total.toLocaleString('tr-TR');
   }
+
+  // ✅ Doğrudan event ekle
+  formElement.addEventListener('input', updateSummary);
+  updateSummary();
+}
+
 </script>
 
 
