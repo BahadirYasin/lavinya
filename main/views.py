@@ -89,7 +89,7 @@ def contact(request):
 
 
 def organizations(request):
-    return render(request, 'organizations.html')
+      return render(request, 'organizations.html')
 
 
 

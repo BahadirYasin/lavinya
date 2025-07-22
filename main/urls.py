@@ -11,11 +11,6 @@ urlpatterns = [
     path('contact/' ,views.contact, name='contact'),
     path('organizations/', views.organizations, name='organizations'),
     path('cafe/', views.cafe_view, name='cafe'),
-    path('organizations/', views.organization_request, name='organizations'),
-    path('organizations/success/', views.organization_success, name='organization_success'),
-    
-   
-    
     
     
   
