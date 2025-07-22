@@ -159,7 +159,7 @@
 </div>
 
 <script>
-  const fiyatlar = {{ fiyatlar_json|safe }};
+  const fiyatlar = JSON.parse('{{ fiyatlar_json|escapejs }}');
   const detayListesi = document.getElementById("fiyat-detaylari");
   const toplamTutarElem = document.getElementById("toplam-tutar");
 
