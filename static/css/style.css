@@ -541,7 +541,16 @@ header.shrink nav a {
 
   /* Header shrink olduğunda hamburger pozisyonunu koru */
   header.shrink .hamburger {
-    top: 50px; /* Aynı pozisyonda kal */
+    top: 20px !important; /* Yukarıya çek */
+    right: 10px !important;
+    width: 20px;
+    height: 16px;
+    transform: scale(0.8);
+    transition: top 0.3s, right 0.3s, width 0.3s, height 0.3s, transform 0.3s;
+  }
+  header.shrink .hamburger div {
+    width: 20px;
+    height: 2px;
   }
 }
 
