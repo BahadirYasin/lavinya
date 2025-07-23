@@ -106,7 +106,8 @@ def organizations_view(request):
     context = {
         'org_choices': org_types,
         'service_options': list(services.values(
-            'id', 'organization_type', 'category', 'name', 'slug', 'price', 'per_person','organization_type__slug'
+            'id', 'organization_type', 'category', 'name', 'slug', 'price', 'per_person', 
+            'organization_type__slug', 'category__slug', 'category__name'
         )),
         'org_cards': org_cards,
     }

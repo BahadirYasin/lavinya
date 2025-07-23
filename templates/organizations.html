@@ -379,14 +379,14 @@
       }
 
       // Kategori bazlı gruplandırma:
-      const categories = [...new Set(filtered.map(s => s.category))];
+      const categories = [...new Set(filtered.map(s => s.category__slug))];
 
-      categories.forEach(cat => {
-        const catServices = filtered.filter(s => s.category === cat);
+      categories.forEach(catSlug => {
+        const catServices = filtered.filter(s => s.category__slug === catSlug);
 
         const fieldset = document.createElement('fieldset');
         const legend = document.createElement('legend');
-        legend.textContent = catServices[0].category.charAt(0).toUpperCase() + catServices[0].category.slice(1).replace('_', ' ');
+        legend.textContent = catServices[0].category__name;
         fieldset.appendChild(legend);
 
         catServices.forEach(service => {
