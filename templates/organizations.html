@@ -77,6 +77,25 @@
   });
 </script>
 
+<div class="organization-cards-wrapper">
+  <div class="organization-card" data-org="wedding">
+    <h3>Düğün</h3>
+    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
+  </div>
+  <div class="organization-card" data-org="engagement">
+    <h3>Nişan</h3>
+    <p>Sevdiklerinizle birlikte unutulmaz bir nişan organizasyonu için özel alanlarımızı keşfedin.</p>
+  </div>
+  <div class="organization-card" data-org="kina">
+    <h3>Kına</h3>
+    <p>Geleneksel ve modern detaylarla süslenmiş kına geceleri için doğru adrestesiniz.</p>
+  </div>
+  <div class="organization-card" data-org="ozel">
+    <h3>Özel Organizasyon</h3>
+    <p>Doğum günü, yıldönümü veya size özel her an için profesyonel çözümler.</p>
+  </div>
+</div>
+
 <div class="organizations-container">
   <div class="organizations-left-panel">
     <h2>Organizasyon Seçiniz</h2>
@@ -189,6 +208,46 @@
   #whatsapp-float:hover {
     background-color: #1ebe57;
   }
+
+  .organization-cards-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem auto;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  padding: 1rem;
+}
+
+.organization-card {
+  flex: 1 1 220px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.organization-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  border-color: #7d5fff;
+}
+
+.organization-card h3 {
+  margin-bottom: 0.5rem;
+  color: #264839;
+  font-size: 1.3rem;
+}
+
+.organization-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
 
   .organizations-container {
     display: flex;
@@ -360,6 +419,25 @@
     });
   });
 </script>
+
+<script>
+  document.querySelectorAll('.organization-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const selectedOrg = card.getAttribute('data-org');
+      const select = document.getElementById('organizations-type-select');
+
+      // Select öğesindeki değeri güncelle
+      select.value = selectedOrg;
+
+      // Trigger change olayı
+      select.dispatchEvent(new Event('change'));
+
+      // Organizasyon paneline scroll et
+      document.querySelector('.organizations-container').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
 
 {{ service_options|json_script:"service-options-data" }}
 
