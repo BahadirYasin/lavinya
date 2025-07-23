@@ -90,6 +90,17 @@ class CafeItem(models.Model):
     def __str__(self):
         return self.name
 
+from cloudinary.models import CloudinaryField
+
+class OrganizationCard(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+    image = CloudinaryField('image')
+
+    def __str__(self):
+        return self.name
+
 from django.db import models
 from django.utils.text import slugify
 

@@ -5,6 +5,9 @@ from .models import MenuSection, MenuItem
 from .models import GalleryImage
 from .models import IndexGallery
 from .models import CafeSection, CafeItem
+from django.contrib import admin
+from .models import ServiceOption
+from .models import OrganizationCard
 
 
 #REZERVASYON BİLGİLERİ
@@ -56,11 +59,13 @@ class CafeSectionAdmin(admin.ModelAdmin):
 
 admin.site.register(CafeSection, CafeSectionAdmin)
 
+#ORGANİZASYON KARTLARI
+@admin.register(OrganizationCard)
+class OrganizationCardAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
 
-
-from django.contrib import admin
-from .models import ServiceOption
-
+#SERVİS OPSİYONLARI
 @admin.register(ServiceOption)
 class ServiceOptionAdmin(admin.ModelAdmin):
     list_display = ('name', 'organization_type', 'category', 'price', 'per_person')

@@ -11,6 +11,9 @@ import json
 from django.shortcuts import render, redirect
 from django.shortcuts import render
 from .models import ServiceOption
+from django.shortcuts import render
+from .models import ServiceOption, OrganizationType
+from .models import OrganizationCard
 
 
 def index(request):
@@ -49,8 +52,6 @@ def reservation(request):
         messages.success(request, "Rezervasyonunuz başarıyla gönderildi!")
         return redirect('reservation')  # form gönderildikten sonra aynı sayfaya dön
     return render(request, 'reservation.html')
-
-
 
 
 
@@ -96,20 +97,23 @@ def cafe_view(request):
     return render(request, 'cafe.html', {'cafe_sections': cafe_sections})
 
 
-from django.shortcuts import render
-from .models import ServiceOption, OrganizationType
 
 def organizations_view(request):
     org_types = OrganizationType.choices
     services = ServiceOption.objects.all()
+    org_cards = OrganizationCard.objects.all()
 
     context = {
         'org_choices': org_types,
         'service_options': list(services.values(
             'id', 'organization_type', 'category', 'name', 'slug', 'price', 'per_person'
         )),
+        'org_cards': org_cards,
     }
     return render(request, 'organizations.html', context)
+
+
+
 
 
 

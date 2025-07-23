@@ -78,30 +78,13 @@
 </script>
 
 <div class="organization-cards-wrapper">
-
-  <div class="organization-card" data-org="wedding">
-    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
-    <h3>Düğün</h3>
-    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
-  </div>
-
-  <div class="organization-card" data-org="wedding">
-    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
-    <h3>Düğün</h3>
-    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
-  </div>
-
-  <div class="organization-card" data-org="wedding">
-    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
-    <h3>Düğün</h3>
-    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
-  </div>
-
-  <div class="organization-card" data-org="wedding">
-    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
-    <h3>Düğün</h3>
-    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
-  </div>
+  {% for org in org_cards %}
+    <div class="organization-card" data-org="{{ org.slug }}">
+      <img src="{{ org.image.url }}" alt="{{ org.name }}" class="organization-card-img" />
+      <h3>{{ org.name }}</h3>
+      <p>{{ org.description }}</p>
+    </div>
+  {% endfor %}
 </div>
 
 <div class="organizations-container">
