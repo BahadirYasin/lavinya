@@ -65,7 +65,7 @@ class GalleryImage(models.Model):
 
 class IndexGallery(models.Model):
     title = models.CharField(max_length=100, blank=True)
-    image = models.ImageField(upload_to='index_gallery/')
+    image = CloudinaryField('image')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
