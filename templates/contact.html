@@ -83,35 +83,103 @@
 {% block content %}
 
 <section class="contact-section">
-  <div class="contact-wrapper">
-    <h2 class="contact-title">Bizimle İletişime Geçin</h2>
-    <p class="contact-subtitle">Sorularınızı, taleplerinizi veya önerilerinizi bize iletebilirsiniz.</p>
+  <div class="contact-wrapper-flex">
+    <div class="contact-form-side">
+      <h2 class="contact-title">Bizimle İletişime Geçin</h2>
+      <p class="contact-subtitle">Sorularınızı, taleplerinizi veya önerilerinizi bize iletebilirsiniz.</p>
 
-    {% if messages %}
-  <div class="contact-form-messages">
-    {% for message in messages %}
-      <p>{{ message }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
+      {% if messages %}
+    <div class="contact-form-messages">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
 
-    <form class="contact-form" method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <input type="text" name="name" placeholder="Adınız" required />
-        <input type="email" name="email" placeholder="E-posta Adresiniz" required />
+      <form class="contact-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Adınız" required />
+          <input type="email" name="email" placeholder="E-posta Adresiniz" required />
+        </div>
+        <div class="form-group">
+          <input type="tel" name="phone" placeholder="Telefon Numaranız" />
+          <input type="text" name="subject" placeholder="Konu" />
+        </div>
+        <div class="form-group">
+          <textarea name="message" placeholder="Mesajınız" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Gönder</button>
+      </form>
+    </div>
+    <div class="contact-addresses-side">
+      <div class="contact-addresses-box">
+        <h3>İletişim Bilgileri</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Yeşilköy, Simav / Kütahya</p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:lavinyarezervasyon@gmail.com">lavinyarezervasyon@gmail.com</a></p>
+        <p><i class="fas fa-phone-alt"></i> <a href="tel:+905550438243">+90 555 043 82 43</a></p>
+        <p><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/lavinyagardenrestaurant/" target="_blank">@lavinyagardenrestaurant</a></p>
       </div>
-      <div class="form-group">
-        <input type="tel" name="phone" placeholder="Telefon Numaranız" />
-        <input type="text" name="subject" placeholder="Konu" />
-      </div>
-      <div class="form-group">
-        <textarea name="message" placeholder="Mesajınız" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="submit-btn">Gönder</button>
-    </form>
+    </div>
   </div>
 </section>
+
+<style>
+.contact-wrapper-flex {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.contact-form-side {
+  flex: 1 1 340px;
+  min-width: 300px;
+}
+.contact-addresses-side {
+  flex: 0 1 320px;
+  min-width: 240px;
+  background: #f8f8f8;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  padding: 2rem 1.5rem;
+  margin-top: 2.5rem;
+}
+.contact-addresses-box h3 {
+  margin-bottom: 1.2rem;
+  color: #264839;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.contact-addresses-box p {
+  margin-bottom: 0.8rem;
+  color: #264839;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.contact-addresses-box a {
+  color: #264839;
+  text-decoration: underline dotted;
+  transition: color 0.2s;
+}
+.contact-addresses-box a:hover {
+  color: #7d5fff;
+}
+@media (max-width: 900px) {
+  .contact-wrapper-flex {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .contact-addresses-side {
+    margin-top: 0;
+    padding: 1.2rem 1rem;
+  }
+}
+</style>
+
+{% endblock %}
 
 
 <footer class="modern-footer">
