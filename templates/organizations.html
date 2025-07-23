@@ -91,7 +91,7 @@
   <div class="organizations-left-panel">
     <h2>Organizasyon Seçiniz</h2>
     <select id="organizations-type-select">
-      <option value="">-- Seçiniz --</option>
+      <option value="">Lütfen bir organizasyon seçin. Mutluluğa bir adım daha yaklaşın.</option>
       {% for org in org_choices %}
         <option value="{{ org.slug }}">{{ org.name }}</option>
       {% endfor %}
@@ -303,6 +303,9 @@
     margin-bottom: 1rem;
     font-size: 1rem;
   }
+  #organizations-type-select option:first-child {
+  color: #aaa;
+}
   #organizations-service-options fieldset {
     border: 1px solid #ddd;
     margin-bottom: 1rem;
