@@ -78,21 +78,29 @@
 </script>
 
 <div class="organization-cards-wrapper">
+
   <div class="organization-card" data-org="wedding">
+    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
     <h3>Düğün</h3>
     <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
   </div>
-  <div class="organization-card" data-org="engagement">
-    <h3>Nişan</h3>
-    <p>Sevdiklerinizle birlikte unutulmaz bir nişan organizasyonu için özel alanlarımızı keşfedin.</p>
+
+  <div class="organization-card" data-org="wedding">
+    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
+    <h3>Düğün</h3>
+    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
   </div>
-  <div class="organization-card" data-org="kina">
-    <h3>Kına</h3>
-    <p>Geleneksel ve modern detaylarla süslenmiş kına geceleri için doğru adrestesiniz.</p>
+
+  <div class="organization-card" data-org="wedding">
+    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
+    <h3>Düğün</h3>
+    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
   </div>
-  <div class="organization-card" data-org="ozel">
-    <h3>Özel Organizasyon</h3>
-    <p>Doğum günü, yıldönümü veya size özel her an için profesyonel çözümler.</p>
+
+  <div class="organization-card" data-org="wedding">
+    <img src="{% static 'images/organization_wedding.jpg' %}" alt="Düğün" class="organization-card-img" />
+    <h3>Düğün</h3>
+    <p>Hayalinizdeki düğünü kır bahçemizde en ince detaylarla gerçeğe dönüştürüyoruz.</p>
   </div>
 </div>
 
@@ -222,32 +230,72 @@
 .organization-card {
   flex: 1 1 220px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  padding: 1.2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  padding: 1.2rem 1.2rem 1.8rem 1.2rem;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(.4,2,.3,1), box-shadow 0.25s;
   border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  min-width: 240px;
+  max-width: 320px;
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.organization-card-img {
+  width: 100%;
+  max-width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  transition: transform 0.4s cubic-bezier(.4,2,.3,1), box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .organization-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(125,95,255,0.18);
   border-color: #7d5fff;
+}
+.organization-card:hover .organization-card-img {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 8px 24px rgba(125,95,255,0.18);
 }
 
 .organization-card h3 {
   margin-bottom: 0.5rem;
   color: #264839;
   font-size: 1.3rem;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.organization-card:hover h3 {
+  color: #7d5fff;
 }
 
 .organization-card p {
   font-size: 0.95rem;
   color: #555;
+  margin-bottom: 0;
 }
 
+@media (max-width: 900px) {
+  .organization-cards-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .organization-card {
+    max-width: 95vw;
+    min-width: 0;
+  }
+}
 
   .organizations-container {
     display: flex;
