@@ -371,7 +371,7 @@
       if (!orgType) return;
 
       // Filtrele
-      const filtered = allServices.filter(s => s.organization_type === orgType);
+      const filtered = allServices.filter(s => s.organization_type__slug === orgType);
 
       if (filtered.length === 0) {
         optionsDiv.textContent = 'Bu organizasyon için seçenek bulunamadı.';
