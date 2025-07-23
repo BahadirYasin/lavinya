@@ -303,9 +303,10 @@
     margin-bottom: 1rem;
     font-size: 1rem;
   }
-  #organizations-type-select option:first-child {
-  color: #aaa;
-}
+  #organizations-type-select option[disabled],
+  #organizations-type-select option[value=""] {
+  color: #aaa !important;   
+  }
   #organizations-service-options fieldset {
     border: 1px solid #ddd;
     margin-bottom: 1rem;
