@@ -104,24 +104,30 @@ class OrganizationCard(models.Model):
 from django.db import models
 from django.utils.text import slugify
 
-class OrganizationType(models.TextChoices):
-    DUGUN = 'dugun', 'Düğün'
-    NISAN = 'nisan', 'Nişan'
-    KINA = 'kina', 'Kına'
+class OrganizationType(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+    image = CloudinaryField('image', blank=True, null=True)  # İstersen görsel de ekle
+    description = models.TextField(blank=True)
 
-class ServiceCategory(models.TextChoices):
-    MUSICIAN = 'musician', 'Müzisyen'
-    VIP_CAR = 'vip_car', 'Araç Süsleme'
-    FOOD = 'food', 'Yemek'
-    CAKE = 'cake', 'Pasta'
+    def __str__(self):
+        return self.name
+
+class ServiceCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.name
 
 class ServiceOption(models.Model):
-    organization_type = models.CharField(max_length=20, choices=OrganizationType.choices)
-    category = models.CharField(max_length=20, choices=ServiceCategory.choices, default=ServiceCategory.MUSICIAN)
+    organization_type = models.ForeignKey(OrganizationType, on_delete=models.CASCADE)
+    category = models.ForeignKey(ServiceCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     price = models.PositiveIntegerField()
     per_person = models.BooleanField(default=False)
+    # diğer alanlar...
 
     def save(self, *args, **kwargs):
         if not self.slug:

@@ -73,7 +73,15 @@ class ServiceOptionAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+from .models import OrganizationType, ServiceCategory
 
+@admin.register(OrganizationType)
+class OrganizationTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+
+@admin.register(ServiceCategory)
+class ServiceCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
 
 
 
