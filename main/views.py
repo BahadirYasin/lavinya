@@ -99,7 +99,7 @@ def cafe_view(request):
 
 
 def organizations_view(request):
-    org_types = OrganizationType.choices
+    org_types = OrganizationType.objects.all()
     services = ServiceOption.objects.all()
     org_cards = OrganizationCard.objects.all()
 

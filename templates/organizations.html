@@ -92,8 +92,8 @@
     <h2>Organizasyon Seçiniz</h2>
     <select id="organizations-type-select">
       <option value="">-- Seçiniz --</option>
-      {% for org_code, org_label in org_choices %}
-        <option value="{{ org_code }}">{{ org_label }}</option>
+      {% for org in org_choices %}
+        <option value="{{ org.slug }}">{{ org.name }}</option>
       {% endfor %}
     </select>
 
