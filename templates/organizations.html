@@ -92,10 +92,8 @@
 
 <div class="organizations-container">
   <div class="organizations-left-panel">
-    <h3>Takvim - Dolu/Boş Günler</h3>
-    <div style="max-width:400px;margin:auto;">
-      <input id="takvim" type="text" class="form-control" placeholder="Tarih seçin" autocomplete="off">
-    </div>
+    <h3>Organizasyon Tarihi Seçiniz</h3>
+    <div id="takvim-inline"></div>
     <h2>Organizasyon Seçiniz</h2>
     <select id="organizations-type-select">
       <option value="">Lütfen bir organizasyon seçin. Mutluluğa bir adım daha yaklaşın.</option>
@@ -108,6 +106,7 @@
 
   <div class="organizations-right-panel">
     <h2>Seçilenler</h2>
+    <h3 id="selected-date-title">Tarih seçilmedi</h3>
     <ul id="organizations-selected-services-list"></ul>
     <p><strong>Toplam Fiyat:</strong> <span id="organizations-total-price">₺0</span></p>
   </div>
@@ -517,17 +516,38 @@
   const days = JSON.parse(document.getElementById('calendar-days-data').textContent);
   const disabledDates = days.filter(d => !d.is_available).map(d => d.date);
 
-  const elem = document.getElementById('takvim');
+  function formatDateLocal(date) {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  const elem = document.getElementById('takvim-inline');
+  const selectedDateTitle = document.getElementById('selected-date-title');
   const datepicker = new Datepicker(elem, {
     language: 'tr',
-    autohide: true,
+    autohide: false,
     format: 'yyyy-mm-dd',
+    inline: true,
     beforeShowDay: function(date) {
-      const d = date.toISOString().slice(0, 10);
+      const d = formatDateLocal(date);
       if (disabledDates.includes(d)) {
         return { classes: 'unavailable-day', disabled: true, tooltip: 'Dolu' };
       }
       return;
+    },
+    // Tarih seçilince başlığı güncelle
+    onSelect: (instance, date) => {
+      if (date && date.length > 0) {
+        const selected = date[0];
+        const yyyy = selected.getFullYear();
+        const mm = String(selected.getMonth() + 1).padStart(2, '0');
+        const dd = String(selected.getDate()).padStart(2, '0');
+        selectedDateTitle.textContent = `Seçilen Tarih: ${dd}.${mm}.${yyyy}`;
+      } else {
+        selectedDateTitle.textContent = 'Tarih seçilmedi';
+      }
     }
   });
 </script>
