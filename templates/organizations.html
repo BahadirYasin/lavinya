@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Vanilla JS Datepicker CSS ve JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
 </head>
 <body>
 
@@ -89,10 +92,10 @@
 
 <div class="organizations-container">
   <div class="organizations-left-panel">
-    <div id="calendar-container">
-      <h3>Takvim - Dolu/Boş Günler</h3>
-      <div class="calendar" id="calendar"></div>
-  </div>
+    <h3>Takvim - Dolu/Boş Günler</h3>
+    <div style="max-width:400px;margin:auto;">
+      <input id="takvim" type="text" class="form-control" placeholder="Tarih seçin" autocomplete="off">
+    </div>
     <h2>Organizasyon Seçiniz</h2>
     <select id="organizations-type-select">
       <option value="">Lütfen bir organizasyon seçin. Mutluluğa bir adım daha yaklaşın.</option>
@@ -100,7 +103,6 @@
         <option value="{{ org.slug }}">{{ org.name }}</option>
       {% endfor %}
     </select>
-
     <div id="organizations-service-options"></div>
   </div>
 
@@ -511,55 +513,29 @@
 <script id="calendar-days-data" type="application/json">
   {{ calendar_days_json|safe }}
 </script>
-
 <script>
-  // Django'dan günleri JSON olarak al
   const days = JSON.parse(document.getElementById('calendar-days-data').textContent);
+  const disabledDates = days.filter(d => !d.is_available).map(d => d.date);
 
-  function renderCalendar() {
-      const calendarDiv = document.getElementById('calendar');
-      calendarDiv.innerHTML = '';
-      days.forEach(day => {
-          const d = new Date(day.date);
-          const dayDiv = document.createElement('div');
-          dayDiv.className = 'day ' + (day.is_available ? 'available' : 'unavailable');
-          dayDiv.textContent = d.getDate();
-          dayDiv.title = d.toLocaleDateString('tr-TR') + (day.is_available ? ' (Boş)' : ' (Dolu)');
-          calendarDiv.appendChild(dayDiv);
-      });
-  }
-  renderCalendar();
+  const elem = document.getElementById('takvim');
+  const datepicker = new Datepicker(elem, {
+    language: 'tr',
+    autohide: true,
+    format: 'yyyy-mm-dd',
+    beforeShowDay: function(date) {
+      const d = date.toISOString().slice(0, 10);
+      if (disabledDates.includes(d)) {
+        return { classes: 'unavailable-day', disabled: true, tooltip: 'Dolu' };
+      }
+      return;
+    }
+  });
 </script>
-
 <style>
-  .calendar {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 350px;
-      margin: 10px auto 20px auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 8px;
-      background: #f9f9f9;
-  }
-  .day {
-      width: 40px;
-      height: 40px;
-      margin: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-  }
-  .available {
-      background: #a2e5a2;
-      color: #264839;
-  }
-  .unavailable {
-      background: #e57373;
-      color: #fff;
+  .datepicker .unavailable-day {
+    background: #e57373 !important;
+    color: #fff !important;
+    border-radius: 8px;
   }
 </style>
 
