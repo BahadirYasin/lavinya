@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'main',
     'django.contrib.sitemaps',
 ]
+APPEND_SLASH = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
