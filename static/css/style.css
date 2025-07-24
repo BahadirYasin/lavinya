@@ -13,6 +13,7 @@ body {
   color: #e5e3d3; 
   padding-top: 152px;
   transition: padding-top 0.3s ease;
+  background: red !important;
 }
 
 .fade-enter {
