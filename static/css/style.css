@@ -10,8 +10,7 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #000;
-  /* color: #e5e3d3; */
+  color: #e5e3d3; 
   padding-top: 152px;
   transition: padding-top 0.3s ease;
 }
