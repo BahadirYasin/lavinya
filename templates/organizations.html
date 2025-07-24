@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}Galeri - Lavinya{% endblock %}</title>
+  <title>{% block title %}Organizasyonlar - Lavinya{% endblock %}</title>
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -507,6 +507,11 @@
     });
   });
 </script>
+
+<script id="calendar-days-data" type="application/json">
+  {{ calendar_days_json|safe }}
+</script>
+
 <script>
   // Django'dan günleri JSON olarak al
   const days = JSON.parse(document.getElementById('calendar-days-data').textContent);
@@ -525,9 +530,7 @@
   }
   renderCalendar();
 </script>
-<script id="calendar-days-data" type="application/json">
-    {{ calendar_days_json|safe }}
-</script>
+
 <style>
   .calendar {
       display: flex;
