@@ -59,11 +59,24 @@ class CafeSectionAdmin(admin.ModelAdmin):
 
 admin.site.register(CafeSection, CafeSectionAdmin)
 
+
+
 #ORGANİZASYON KARTLARI
 @admin.register(OrganizationCard)
 class OrganizationCardAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
+
+#TARİH SEÇİMİ
+from .models import CalendarDay
+
+class CalendarDayAdmin(admin.ModelAdmin):
+    list_display = ('date', 'is_available')
+    list_filter = ('is_available',)
+    search_fields = ('date',)
+    ordering = ('date',)
+
+admin.site.register(CalendarDay, CalendarDayAdmin)
 
 #SERVİS OPSİYONLARI
 @admin.register(ServiceOption)

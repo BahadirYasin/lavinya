@@ -104,6 +104,13 @@ class OrganizationCard(models.Model):
 from django.db import models
 from django.utils.text import slugify
 
+class CalendarDay(models.Model):
+    date = models.DateField(unique=True)
+    is_available = models.BooleanField(default=True)  # True: Boş, False: Dolu
+
+    def __str__(self):
+        return f"{self.date} - {'Boş' if self.is_available else 'Dolu'}"
+
 class OrganizationType(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
@@ -136,6 +143,8 @@ class ServiceOption(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.organization_type})"
+
+        
 
 
 

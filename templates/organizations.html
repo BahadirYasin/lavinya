@@ -89,6 +89,10 @@
 
 <div class="organizations-container">
   <div class="organizations-left-panel">
+    <div id="calendar-container">
+      <h3>Takvim - Dolu/Boş Günler</h3>
+      <div class="calendar" id="calendar"></div>
+  </div>
     <h2>Organizasyon Seçiniz</h2>
     <select id="organizations-type-select">
       <option value="">Lütfen bir organizasyon seçin. Mutluluğa bir adım daha yaklaşın.</option>
@@ -503,7 +507,58 @@
     });
   });
 </script>
+<script>
+  // Django'dan günleri JSON olarak al
+  const days = JSON.parse(document.getElementById('calendar-days-data').textContent);
 
+  function renderCalendar() {
+      const calendarDiv = document.getElementById('calendar');
+      calendarDiv.innerHTML = '';
+      days.forEach(day => {
+          const d = new Date(day.date);
+          const dayDiv = document.createElement('div');
+          dayDiv.className = 'day ' + (day.is_available ? 'available' : 'unavailable');
+          dayDiv.textContent = d.getDate();
+          dayDiv.title = d.toLocaleDateString('tr-TR') + (day.is_available ? ' (Boş)' : ' (Dolu)');
+          calendarDiv.appendChild(dayDiv);
+      });
+  }
+  renderCalendar();
+</script>
+<script id="calendar-days-data" type="application/json">
+    {{ calendar_days|json_script:"calendar-days-data" }}
+</script>
+<style>
+  .calendar {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 350px;
+      margin: 10px auto 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 8px;
+      background: #f9f9f9;
+  }
+  .day {
+      width: 40px;
+      height: 40px;
+      margin: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+  }
+  .available {
+      background: #a2e5a2;
+      color: #264839;
+  }
+  .unavailable {
+      background: #e57373;
+      color: #fff;
+  }
+</style>
 
 {{ service_options|json_script:"service-options-data" }}
 

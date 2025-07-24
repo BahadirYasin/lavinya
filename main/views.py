@@ -14,6 +14,9 @@ from .models import ServiceOption
 from django.shortcuts import render
 from .models import ServiceOption, OrganizationType
 from .models import OrganizationCard
+from .models import OrganizationCard, CalendarDay
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def index(request):
@@ -102,6 +105,14 @@ def organizations_view(request):
     org_types = OrganizationType.objects.all()
     services = ServiceOption.objects.all()
     org_cards = OrganizationCard.objects.all()
+    calendar_days = CalendarDay.objects.all()
+    calendar_days_json = json.dumps(
+        [
+            {"date": str(day.date), "is_available": day.is_available}
+            for day in calendar_days
+        ],
+        cls=DjangoJSONEncoder
+    )
 
     context = {
         'org_choices': org_types,
@@ -110,6 +121,8 @@ def organizations_view(request):
             'organization_type__slug', 'category__slug', 'category__name'
         )),
         'org_cards': org_cards,
+        'calendar_days': calendar_days,
+        'calendar_days_json': calendar_days_json,  # <-- Bunu ekledik!
     }
     return render(request, 'organizations.html', context)
 
