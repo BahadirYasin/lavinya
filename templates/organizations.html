@@ -92,7 +92,7 @@
 
 <div class="organizations-container">
   <div class="organizations-left-panel">
-    <h3>Organizasyon Tarihi Seçiniz</h3>
+    <h3>Organizasyon Tarihi Seçiniz  ( Kırmızı renkli günler dolu günlerdir)</h3>
     <div id="takvim-inline"></div>
     <h2>Organizasyon Seçiniz</h2>
     <select id="organizations-type-select">
@@ -347,6 +347,24 @@
     margin-bottom: 0.5rem;
   }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle   = document.querySelector('.organizations-dropdown-toggle');
+  const submenu  = document.querySelector('.organizations-dropdown-menu');
+
+  if (!toggle || !submenu) return;
+
+  toggle.addEventListener('click', e => {
+    // Sadece mobilde (<=1048px) tıklama ile aç/kapat
+    if (window.innerWidth <= 1048) {
+      e.preventDefault();                // "#" linkini engelle
+      submenu.classList.toggle('open');  // menüyü aç/kapat
+      toggle.querySelector('i').classList.toggle('rotate'); // ok ikonunu döndür
+    }
+  });
+});
+</script>
 
 <script>
   const hamburger = document.getElementById('hamburger-btn');
