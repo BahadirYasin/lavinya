@@ -52,6 +52,123 @@
     opacity: 0;
     transition: transform 1.2s ease, opacity 1.2s ease;
   }
+  .hero-menu-links{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.kahvalti-btn{
+    font-family:'Poppins',sans-serif;
+    font-size:1rem;
+    text-decoration:none;
+    color:#fff;
+    border:2px solid #d4af37;
+    padding:12px 25px;
+    border-radius:50px;
+    transition:.3s;
+    background:rgba(0,0,0,.25);
+}
+
+.kahvalti-btn:hover{
+    background:#d4af37;
+    color:#264839;
+    transform:translateY(-3px);
+}
+
+.breakfast-section{
+    max-width:1400px;
+    margin:80px auto;
+    padding:0 20px;
+}
+
+.breakfast-header{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.breakfast-header h2{
+    font-size:3rem;
+    color:#264839;
+    margin-bottom:10px;
+    font-family:'Playfair Display',serif;
+}
+
+.breakfast-header p{
+    color:#777;
+}
+
+.breakfast-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+    gap:30px;
+}
+
+.breakfast-card{
+    background:#fff;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.breakfast-card.featured{
+    border:3px solid #d4af37;
+}
+
+.breakfast-card h3{
+    color:#264839;
+    font-size:2rem;
+    margin-bottom:5px;
+}
+
+.person-count{
+    color:#888;
+}
+
+.price{
+    font-size:2rem;
+    color:#d4af37;
+    font-weight:700;
+    margin:20px 0;
+}
+
+.breakfast-card ul{
+    list-style:none;
+    padding:0;
+}
+
+.breakfast-card li{
+    padding:8px 0;
+    border-bottom:1px solid #eee;
+}
+
+.extras-box{
+    margin-top:40px;
+    background:#264839;
+    color:white;
+    padding:30px;
+    border-radius:20px;
+}
+
+.extras-box h3{
+    text-align:center;
+    margin-bottom:25px;
+    color:#d4af37;
+    font-size:2rem;
+}
+
+.extra-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+html{
+    scroll-behavior:smooth;
+}
   
   </style>
 </head>
@@ -125,7 +242,14 @@
 
 Menü Başlığı ve Kapak Fotoğrafı 
 <section class="menu-hero">
-  Restaurant Menü
+  <div class="hero-menu-links">
+    <span>Restaurant Menü</span>
+
+    <a href="#kahvalti-menu" class="kahvalti-btn">
+      Kahvaltı Menüsü
+    </a>
+  </div>
+
   <button id="scroll-down-btn" aria-label="Menüye git">
     <i class="fas fa-chevron-down"></i>
   </button>
@@ -159,6 +283,104 @@ Menü Başlığı ve Kapak Fotoğrafı
     }, 100); // Sayfa yüklendikten 0.1 saniye sonra animasyon başlasın
   });
 </script>
+<section id="kahvalti-menu" class="breakfast-section">
+
+    <div class="breakfast-header">
+        <h2>Kahvaltı Menüsü</h2>
+        <p>Lavinya Garden Restaurant'ın özel kahvaltı seçenekleri</p>
+    </div>
+
+    <div class="breakfast-grid">
+
+        <!-- SERPME -->
+        <div class="breakfast-card featured">
+            <h3>Lavinya Serpme</h3>
+            <span class="person-count">(2 Kişilik)</span>
+
+            <div class="price">₺1100</div>
+
+            <ul>
+                <li>Nutella</li>
+                <li>Tahin Pekmez</li>
+                <li>2 Çeşit Reçel</li>
+                <li>Bal</li>
+                <li>Mevsim Meyveleri</li>
+                <li>Tereyağı</li>
+                <li>Yeşil & Siyah Zeytin</li>
+                <li>Domates - Salatalık</li>
+                <li>Yeşillikler</li>
+                <li>Tulum Peyniri</li>
+                <li>Ezine Peyniri</li>
+                <li>Çeçil Peyniri</li>
+                <li>Misket Peyniri</li>
+                <li>Pişi</li>
+                <li>Pankek</li>
+                <li>Sigara Böreği</li>
+                <li>Patates Kızartması</li>
+                <li>Soğan Halkası</li>
+                <li>Soslu Biber Kızartması</li>
+                <li>Güveçte Kasap Sucuk</li>
+                <li>Sahan Yumurta</li>
+                <li>1 Termos Çay</li>
+            </ul>
+        </div>
+
+        <!-- TABAK -->
+        <div class="breakfast-card">
+            <h3>Kahvaltı Tabağı</h3>
+            <span class="person-count">(1 Kişilik)</span>
+
+            <div class="price">₺350</div>
+
+            <ul>
+                <li>Patates Kızartması</li>
+                <li>Sigara Böreği</li>
+                <li>Kızarmış Biber</li>
+                <li>Tereyağı</li>
+                <li>Reçel</li>
+                <li>Bal</li>
+                <li>Ezine Peyniri</li>
+                <li>Tulum Peyniri</li>
+                <li>Siyah Zeytin</li>
+                <li>Domates</li>
+                <li>Salatalık</li>
+                <li>Haşlanmış Yumurta</li>
+                <li>2 Bardak Çay</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="extras-box">
+        <h3>Ekstralar</h3>
+
+        <div class="extra-row">
+            <span>Sahanda Sucuk</span>
+            <span>₺180</span>
+        </div>
+
+        <div class="extra-row">
+            <span>Kuymak</span>
+            <span>₺210</span>
+        </div>
+
+        <div class="extra-row">
+            <span>Omlet</span>
+            <span>₺50</span>
+        </div>
+
+        <div class="extra-row">
+            <span>Menemen</span>
+            <span>₺80</span>
+        </div>
+
+        <div class="extra-row">
+            <span>Sucuklu Yumurta</span>
+            <span>₺200</span>
+        </div>
+    </div>
+
+</section>
 
 
 <main class="menu-container">
