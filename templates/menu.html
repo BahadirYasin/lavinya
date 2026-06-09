@@ -171,6 +171,46 @@
 html{
     scroll-behavior:smooth;
 }
+
+.menu-divider{
+    text-align:center;
+    margin:90px auto 50px;
+    max-width:900px;
+}
+
+.menu-divider h2{
+    font-size:3rem;
+    color:#264839;
+    font-family:'Playfair Display', serif;
+    margin-bottom:10px;
+    position:relative;
+    display:inline-block;
+}
+
+.menu-divider h2::before,
+.menu-divider h2::after{
+    content:'';
+    position:absolute;
+    top:50%;
+    width:120px;
+    height:2px;
+    background:#d4af37;
+}
+
+.menu-divider h2::before{
+    right:100%;
+    margin-right:20px;
+}
+
+.menu-divider h2::after{
+    left:100%;
+    margin-left:20px;
+}
+
+.menu-divider p{
+    color:#777;
+    font-size:1rem;
+}
   
   </style>
 </head>
@@ -382,6 +422,11 @@ html{
         </div>
     </div>
 
+</section>
+
+<section class="menu-divider">
+    <h2>Lavinya Lezzetleri</h2>
+    <p>Özenle hazırlanan ana yemekler, ızgaralar ve özel lezzetler</p>
 </section>
 
 
