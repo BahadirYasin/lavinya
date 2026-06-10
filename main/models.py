@@ -32,13 +32,14 @@ class HeroSection(models.Model):
     def __str__(self):
         return self.title
     
-#MENU İÇİNDEKİ BÖLÜM VE İTEMLERİ DEĞİŞTİRME MODELİ 
-    
+
+
 class MenuSection(models.Model):
     title = models.CharField(max_length=100)
 
     def __str__(self):
         return self.title
+
 
 class MenuItem(models.Model):
     section = models.ForeignKey(MenuSection, related_name='items', on_delete=models.CASCADE)
@@ -46,11 +47,11 @@ class MenuItem(models.Model):
     description = models.TextField()
     ingredients = models.TextField("İçindekiler", blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    image =  CloudinaryField('image')
+    image = CloudinaryField('image')
 
     def __str__(self):
         section_title = getattr(self.section, "title", "")
-        return f"{self.name} ({section_title})"  
+        return f"{self.name} ({section_title})"
 
 #GALERİ SAYFASINDAKİ RESİMLERİ DÜZENLEME EKLEME ÇIKARMA MODELİ  
 
