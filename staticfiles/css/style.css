@@ -1326,7 +1326,7 @@ header.shrink nav a {
     font-size:18px;
     font-weight:600;
     margin-bottom:15px;
-    color:#8b6b3f;
+    color:#264839;
     line-height:1.5;
 }
 
@@ -1339,16 +1339,18 @@ header.shrink nav a {
     border-radius:10px;
     background:#f8f8f8;
     border:1px solid #e5e5e5;
+    
 }
 
 .vip-price-item span{
-    font-weight:500;
-    color:#333;
+    font-weight:600;
+    color:#264839;
 }
 
 .vip-price-item strong{
-    color:#b8860b;
+     color:#1d362d;
     font-size:18px;
+    font-weight:700;
 }
 
 .vip-note{
@@ -1357,7 +1359,8 @@ header.shrink nav a {
     border-radius:10px;
     background:#fff8e8;
     border:1px solid #e9d7a5;
-    color:#6b5527;
+    color:#264839;
+    font-weight:500;
     font-size:14px;
     text-align:center;
 }
