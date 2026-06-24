@@ -1316,6 +1316,56 @@ header.shrink nav a {
   background-color: #1d362d;
 }
 
+.vip-pricing{
+    margin-top:20px;
+    width:100%;
+}
+
+.vip-pricing-title{
+    text-align:center;
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:15px;
+    color:#8b6b3f;
+    line-height:1.5;
+}
+
+.vip-price-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 15px;
+    margin-bottom:10px;
+    border-radius:10px;
+    background:#f8f8f8;
+    border:1px solid #e5e5e5;
+}
+
+.vip-price-item span{
+    font-weight:500;
+    color:#333;
+}
+
+.vip-price-item strong{
+    color:#b8860b;
+    font-size:18px;
+}
+
+.vip-note{
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    background:#fff8e8;
+    border:1px solid #e9d7a5;
+    color:#6b5527;
+    font-size:14px;
+    text-align:center;
+}
+
+.vip-note i{
+    margin-right:6px;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .rezervasyon-flex-wrapper {
